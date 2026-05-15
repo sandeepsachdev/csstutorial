@@ -1,0 +1,213 @@
+/* ============================================================
+   main.css — site-wide styling, theme, layout chrome
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+    --color-bg: #ffffff;
+    --color-fg: #1f2937;
+    --color-muted: #6b7280;
+    --color-accent: #0ea5e9;
+    --color-accent-dark: #0369a1;
+    --color-border: #e5e7eb;
+    --color-code-bg: #0f172a;
+    --color-code-fg: #e2e8f0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --radius: 8px;
+    --max-width: 1100px;
+}
+
+html, body { height: 100%; }
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    color: var(--color-fg);
+    background: var(--color-bg);
+    line-height: 1.55;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+main { flex: 1; }
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1 { font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); margin: 1rem 0 0.5rem; }
+h2 { font-size: clamp(1.25rem, 1.5vw + 0.75rem, 1.75rem); margin: 2rem 0 0.5rem; }
+h3 { font-size: 1.125rem; margin: 1.25rem 0 0.5rem; }
+
+p { margin: 0.5rem 0; }
+
+.lead {
+    font-size: 1.125rem;
+    color: var(--color-muted);
+    max-width: 60ch;
+}
+
+code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    background: #f1f5f9;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+
+pre {
+    background: var(--color-code-bg);
+    color: var(--color-code-fg);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1.25rem;
+}
+
+/* ---------- Header & navigation ---------- */
+
+.site-header {
+    background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    color: white;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-header__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.brand {
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+}
+
+.site-nav {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+.site-nav a {
+    color: rgba(255, 255, 255, 0.92);
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.site-nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+}
+
+.nav-toggle {
+    display: none;
+    margin-left: auto;
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    font-size: 1.25rem;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 1.25rem;
+    background: #f8fafc;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* ---------- Index page ---------- */
+.hero { padding: 1rem 0 2rem; }
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.card {
+    flex: 1 1 260px;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    color: var(--color-fg);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+        text-decoration: none;
+    }
+}
+
+.card h2 { margin-top: 0; color: var(--color-accent-dark); }
+
+.tip-box {
+    background: #fef9c3;
+    border-left: 4px solid #eab308;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    margin: 2rem 0;
+}
+
+/* ---------- Table of contents (flexbox page) ---------- */
+.toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.9rem;
+    padding: 1rem;
+    background: #f1f5f9;
+    border-radius: var(--radius);
+    margin: 1rem 0 2rem;
+    font-size: 0.9rem;
+}
+
+.toc strong { width: 100%; }
+
+/* ---------- Generic example block ---------- */
+.example {
+    margin: 2.5rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.example pre { margin-top: 0.75rem; }

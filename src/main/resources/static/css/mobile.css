@@ -1,0 +1,207 @@
+/* ============================================================
+   mobile.css — responsive rules + styles for the Mobile page
+   ============================================================ */
+
+/* ---------- Mobile / desktop visibility helpers ---------- */
+.mobile-only  { display: inline; }
+.desktop-only { display: none; }
+
+.vis-demo {
+    background: #ecfeff;
+    border: 1px dashed #06b6d4;
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ---------- Mobile page demos ---------- */
+.touch-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+    align-items: center;
+}
+
+.touch {
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.touch.bad {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: #ef4444;
+    color: white;
+    font-size: 0.65rem;
+}
+
+.touch.good {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    background: #22c55e;
+    color: white;
+}
+
+.fluid-heading {
+    font-size: clamp(1.25rem, 4vw + 0.5rem, 2.5rem);
+    background: linear-gradient(90deg, #0ea5e9, #6366f1);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 0.75rem 0;
+    text-align: center;
+}
+
+.stack-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+.stack-demo aside,
+.stack-demo section {
+    background: #f1f5f9;
+    border-radius: 6px;
+    padding: 1rem;
+}
+.stack-demo aside {
+    background: #fef3c7;
+}
+
+.checklist {
+    list-style: none;
+    padding: 0;
+}
+.checklist li {
+    padding: 0.5rem 0.75rem 0.5rem 2rem;
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+}
+.checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0.5rem;
+    color: #22c55e;
+    font-weight: 700;
+}
+
+/* ============================================================
+   BREAKPOINT-DRIVEN BEHAVIOR (mobile-first)
+   ============================================================ */
+
+/* --- Phones (default) -------------------------------------- */
+/* Stack the navbar links under a hamburger toggle. */
+@media (max-width: 767px) {
+    .site-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        order: 3;
+        margin-left: 0;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 0.5rem;
+        border-radius: 6px;
+    }
+    .site-nav.open { display: flex; }
+    .site-nav a { width: 100%; padding: 0.75rem; }
+
+    .nav-toggle { display: inline-block; }
+
+    /* Tighten container padding on phones */
+    .container { padding: 1rem; }
+
+    /* Single column for card grids */
+    .card-grid .card,
+    .card-row .mini-card { flex-basis: 100%; }
+
+    /* Holy grail collapses to a single column */
+    .hg-body { flex-direction: column; }
+    .hg-left, .hg-right { flex-basis: auto; }
+
+    /* Demo navbar wraps */
+    .demo-navbar { flex-wrap: wrap; }
+    .demo-navbar .cta { margin-left: 0; }
+    .demo-nav-links { flex-wrap: wrap; }
+
+    /* Bigger tap targets in the table of contents */
+    .toc a { padding: 0.35rem 0.5rem; background: white; border-radius: 4px; }
+
+    /* Stack the bs cards */
+    .bs-card { width: 100%; }
+
+    /* Don't let pre overflow the viewport */
+    pre { font-size: 0.85rem; }
+}
+
+/* --- Tablets and up --------------------------------------- */
+@media (min-width: 768px) {
+    .mobile-only  { display: none; }
+    .desktop-only { display: inline; }
+
+    .stack-demo { flex-direction: row; }
+    .stack-demo aside { flex: 0 0 200px; }
+    .stack-demo section { flex: 1; }
+}
+
+/* --- Landscape phones ------------------------------------- */
+@media (max-width: 900px) and (orientation: landscape) {
+    .site-header { position: static; }
+}
+
+/* --- iOS safe areas --------------------------------------- */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .site-footer {
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+    }
+    .site-header__inner {
+        padding-left: calc(1.25rem + env(safe-area-inset-left));
+        padding-right: calc(1.25rem + env(safe-area-inset-right));
+    }
+}
+
+/* --- High-DPI screens — sharpen borders ------------------- */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .card, .mini-card { border-width: 0.5px; }
+}
+
+/* --- Touch (no fine pointer) — remove hover-only effects -- */
+@media (hover: none) and (pointer: coarse) {
+    .card:hover {
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+    a, button { -webkit-tap-highlight-color: rgba(14, 165, 233, 0.2); }
+}
+
+/* --- Reduced motion --------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* --- Dark mode -------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #0f172a;
+        --color-fg: #e2e8f0;
+        --color-muted: #94a3b8;
+        --color-border: #334155;
+    }
+    body { background: var(--color-bg); color: var(--color-fg); }
+    code { background: #1e293b; color: #f1f5f9; }
+    .card, .mini-card { background: #1e293b; color: var(--color-fg); }
+    .demo, .demo-box, .tall-box, .center-demo { background: #1e293b; border-color: #334155; }
+    .site-footer { background: #1e293b; }
+    .toc { background: #1e293b; }
+    .bs-card { background: #1e293b; }
+    .stack-demo aside, .stack-demo section { background: #1e293b; }
+}

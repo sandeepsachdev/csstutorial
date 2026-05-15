@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Media Queries')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1>Media Queries</h1>
+    <p class="lead">
+        Media queries apply CSS only when conditions match — the most common being
+        the viewport width. Resize this page or rotate your phone to see the demos react.
+    </p>
+
+    <h2>Anatomy of a media query</h2>
+    <pre><code>@media (min-width: 768px) {
+  .card { padding: 2rem; }
+}</code></pre>
+
+    <h2>Live viewport indicator</h2>
+    <p>The badge below changes color and label based on the active breakpoint.</p>
+    <div class="viewport-badge">
+        <span class="bp xs">XS &lt; 480px</span>
+        <span class="bp sm">SM 480–767px</span>
+        <span class="bp md">MD 768–1023px</span>
+        <span class="bp lg">LG ≥ 1024px</span>
+    </div>
+
+    <h2>Common breakpoints (mobile-first)</h2>
+    <pre><code>/* base = phones */
+@media (min-width: 480px) { /* large phones */ }
+@media (min-width: 768px) { /* tablets   */ }
+@media (min-width: 1024px) { /* laptops   */ }
+@media (min-width: 1440px) { /* desktops  */ }</code></pre>
+
+    <h2>min-width vs max-width</h2>
+    <ul>
+        <li><strong>min-width</strong> — "from this width and up". Pairs with mobile-first CSS.</li>
+        <li><strong>max-width</strong> — "up to this width". Pairs with desktop-first CSS.</li>
+    </ul>
+    <p>Stick to one approach. Most teams pick mobile-first because the base styles work everywhere
+       and you only add complexity on bigger screens.</p>
+
+    <h2>Other useful queries</h2>
+    <pre><code>/* User prefers dark theme */
+@media (prefers-color-scheme: dark) { ... }
+
+/* No fine-pointer device — likely touch */
+@media (hover: none) and (pointer: coarse) { ... }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) { ... }
+
+/* Landscape orientation */
+@media (orientation: landscape) { ... }</code></pre>
+
+    <h2>Demo: responsive grid</h2>
+    <div class="responsive-grid">
+        <div class="rg-cell">1</div>
+        <div class="rg-cell">2</div>
+        <div class="rg-cell">3</div>
+        <div class="rg-cell">4</div>
+        <div class="rg-cell">5</div>
+        <div class="rg-cell">6</div>
+    </div>
+    <p>1 column on phones, 2 on large phones, 3 on tablets, 6 on desktops.</p>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Flexbox')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1>Flexbox</h1>
+    <p class="lead">
+        Flexbox lays items out along a single axis (a row or a column) and gives you
+        powerful tools for alignment, distribution, and resizing. Every example below
+        is live — open DevTools and play with the values.
+    </p>
+
+    <nav class="toc">
+        <strong>Examples:</strong>
+        <a href="#ex1">1. Row basics</a>
+        <a href="#ex2">2. Column</a>
+        <a href="#ex3">3. justify-content</a>
+        <a href="#ex4">4. align-items</a>
+        <a href="#ex5">5. gap</a>
+        <a href="#ex6">6. flex-wrap</a>
+        <a href="#ex7">7. flex-grow</a>
+        <a href="#ex8">8. flex-shrink</a>
+        <a href="#ex9">9. flex-basis</a>
+        <a href="#ex10">10. order</a>
+        <a href="#ex11">11. align-self</a>
+        <a href="#ex12">12. Holy grail</a>
+        <a href="#ex13">13. Navbar</a>
+        <a href="#ex14">14. Card row</a>
+        <a href="#ex15">15. Centering</a>
+        <a href="#ex16">16. Sticky footer</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="example" id="ex1">
+        <h2>1. Row basics — <code>display: flex</code></h2>
+        <p>Adding <code>display: flex</code> to a container turns its children into flex items, laid out in a row.</p>
+        <div class="flex-row demo-box">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+        </div>
+        <pre><code>.container { display: flex; }</code></pre>
+    </section>
+
+    <!-- 2 -->
+    <section class="example" id="ex2">
+        <h2>2. Column — <code>flex-direction: column</code></h2>
+        <div class="flex-col demo-box">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+        </div>
+        <pre><code>.container { display: flex; flex-direction: column; }</code></pre>
+    </section>
+
+    <!-- 3 -->
+    <section class="example" id="ex3">
+        <h2>3. <code>justify-content</code> — alignment along the main axis</h2>
+
+        <p><code>flex-start</code> (default)</p>
+        <div class="flex-row jc-start demo-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>center</code></p>
+        <div class="flex-row jc-center demo-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>flex-end</code></p>
+        <div class="flex-row jc-end demo-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>space-between</code></p>
+        <div class="flex-row jc-between demo-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>space-around</code></p>
+        <div class="flex-row jc-around demo-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>space-evenly</code></p>
+        <div class="flex-row jc-evenly demo-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="example" id="ex4">
+        <h2>4. <code>align-items</code> — alignment along the cross axis</h2>
+
+        <p><code>stretch</code> (default)</p>
+        <div class="flex-row ai-stretch tall-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>flex-start</code></p>
+        <div class="flex-row ai-start tall-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>center</code></p>
+        <div class="flex-row ai-center tall-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>flex-end</code></p>
+        <div class="flex-row ai-end tall-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+        <p><code>baseline</code> — aligns text baselines, even with different font sizes</p>
+        <div class="flex-row ai-baseline tall-box">
+            <div class="box" style="font-size: 0.75rem;">small</div>
+            <div class="box" style="font-size: 1.5rem;">medium</div>
+            <div class="box" style="font-size: 2.5rem;">large</div>
+        </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="example" id="ex5">
+        <h2>5. <code>gap</code> — spacing between items, no margin hacks</h2>
+        <div class="flex-row gap-demo demo-box">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+            <div class="box">4</div>
+        </div>
+        <pre><code>.container { display: flex; gap: 1rem; }</code></pre>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="ex6">
+        <h2>6. <code>flex-wrap</code> — let items flow onto new lines</h2>
+        <div class="flex-row wrap-demo demo-box">
+            <div class="box wide">1</div>
+            <div class="box wide">2</div>
+            <div class="box wide">3</div>
+            <div class="box wide">4</div>
+            <div class="box wide">5</div>
+            <div class="box wide">6</div>
+        </div>
+        <pre><code>.container { display: flex; flex-wrap: wrap; gap: 0.75rem; }</code></pre>
+    </section>
+
+    <!-- 7 -->
+    <section class="example" id="ex7">
+        <h2>7. <code>flex-grow</code> — how items share leftover space</h2>
+        <div class="flex-row demo-box">
+            <div class="box grow-1">grow:1</div>
+            <div class="box grow-2">grow:2</div>
+            <div class="box grow-1">grow:1</div>
+        </div>
+        <p>The middle item gets twice the leftover space.</p>
+    </section>
+
+    <!-- 8 -->
+    <section class="example" id="ex8">
+        <h2>8. <code>flex-shrink</code> — how items give up space when cramped</h2>
+        <div class="flex-row demo-box narrow">
+            <div class="box shrink-0">shrink:0</div>
+            <div class="box shrink-1">shrink:1</div>
+            <div class="box shrink-3">shrink:3</div>
+        </div>
+        <p>The "shrink:3" box gives up space 3× faster than its neighbor.</p>
+    </section>
+
+    <!-- 9 -->
+    <section class="example" id="ex9">
+        <h2>9. <code>flex-basis</code> — the starting size before grow/shrink kick in</h2>
+        <div class="flex-row demo-box">
+            <div class="box basis-100">100px</div>
+            <div class="box basis-200">200px</div>
+            <div class="box basis-300">300px</div>
+        </div>
+        <p>Shorthand: <code>flex: &lt;grow&gt; &lt;shrink&gt; &lt;basis&gt;</code>. The
+           common one-liner <code>flex: 1</code> means <code>1 1 0</code>.</p>
+    </section>
+
+    <!-- 10 -->
+    <section class="example" id="ex10">
+        <h2>10. <code>order</code> — visually rearrange without changing the HTML</h2>
+        <div class="flex-row demo-box">
+            <div class="box" style="order: 3">A (order:3)</div>
+            <div class="box" style="order: 1">B (order:1)</div>
+            <div class="box" style="order: 2">C (order:2)</div>
+        </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="example" id="ex11">
+        <h2>11. <code>align-self</code> — one item opts out of <code>align-items</code></h2>
+        <div class="flex-row ai-center tall-box">
+            <div class="box">1</div>
+            <div class="box" style="align-self: flex-start">2</div>
+            <div class="box" style="align-self: flex-end">3</div>
+            <div class="box">4</div>
+        </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="example" id="ex12">
+        <h2>12. The "holy grail" layout</h2>
+        <div class="holy-grail">
+            <header>header</header>
+            <div class="hg-body">
+                <aside class="hg-left">left</aside>
+                <main class="hg-main">main content</main>
+                <aside class="hg-right">right</aside>
+            </div>
+            <footer>footer</footer>
+        </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="example" id="ex13">
+        <h2>13. A real navbar</h2>
+        <nav class="demo-navbar">
+            <a class="logo">Acme</a>
+            <ul class="demo-nav-links">
+                <li><a>Home</a></li>
+                <li><a>Pricing</a></li>
+                <li><a>Docs</a></li>
+            </ul>
+            <button class="cta">Sign up</button>
+        </nav>
+    </section>
+
+    <!-- 14 -->
+    <section class="example" id="ex14">
+        <h2>14. Responsive card row</h2>
+        <div class="card-row">
+            <div class="mini-card"><h3>Alpha</h3><p>Quick description here.</p></div>
+            <div class="mini-card"><h3>Beta</h3><p>Quick description here.</p></div>
+            <div class="mini-card"><h3>Gamma</h3><p>Quick description here.</p></div>
+            <div class="mini-card"><h3>Delta</h3><p>Quick description here.</p></div>
+        </div>
+        <p>These wrap automatically; on phones each card takes the full width.</p>
+    </section>
+
+    <!-- 15 -->
+    <section class="example" id="ex15">
+        <h2>15. Centering anything — finally</h2>
+        <div class="center-demo">
+            <div class="box">I'm centered</div>
+        </div>
+        <pre><code>.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</code></pre>
+    </section>
+
+    <!-- 16 -->
+    <section class="example" id="ex16">
+        <h2>16. Sticky footer pattern</h2>
+        <p>Make the page a column-flex container, give the main area
+           <code>flex: 1</code>, and the footer always sits at the bottom even when
+           content is short.</p>
+        <pre><code>html, body { height: 100%; }
+body { display: flex; flex-direction: column; }
+main { flex: 1; }</code></pre>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

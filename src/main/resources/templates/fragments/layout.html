@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title} + ' | CSS Tutorial'">CSS Tutorial</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/examples.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mobile.css}"/>
+</head>
+<body>
+
+<header th:fragment="header" class="site-header">
+    <div class="site-header__inner">
+        <a class="brand" th:href="@{/}">CSS&nbsp;Tutorial</a>
+        <button class="nav-toggle" aria-label="Toggle navigation"
+                onclick="document.querySelector('.site-nav').classList.toggle('open')">
+            &#9776;
+        </button>
+        <nav class="site-nav">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/basics}">Basics</a>
+            <a th:href="@{/box-model}">Box Model</a>
+            <a th:href="@{/flexbox}">Flexbox</a>
+            <a th:href="@{/media-queries}">Media Queries</a>
+            <a th:href="@{/mobile}">Mobile</a>
+        </nav>
+    </div>
+</header>
+
+<footer th:fragment="footer" class="site-footer">
+    <p>Built with Spring Boot + Thymeleaf. Resize your browser to see responsive behavior.</p>
+</footer>
+
+</body>
+</html>

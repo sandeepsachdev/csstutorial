@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <section class="hero">
+        <h1>Learn CSS the practical way</h1>
+        <p class="lead">
+            A hands-on tutorial covering CSS fundamentals, the box model, flexbox,
+            media queries, and mobile-first design — running on Spring Boot.
+        </p>
+    </section>
+
+    <section class="card-grid">
+        <a class="card" th:href="@{/basics}">
+            <h2>1. CSS Basics</h2>
+            <p>Selectors, the cascade, specificity, colors, units, typography.</p>
+        </a>
+        <a class="card" th:href="@{/box-model}">
+            <h2>2. Box Model</h2>
+            <p>Margin, border, padding, content. box-sizing demystified.</p>
+        </a>
+        <a class="card" th:href="@{/flexbox}">
+            <h2>3. Flexbox</h2>
+            <p>15+ live examples: rows, columns, wrapping, alignment, growth.</p>
+        </a>
+        <a class="card" th:href="@{/media-queries}">
+            <h2>4. Media Queries</h2>
+            <p>Breakpoints, min-width vs max-width, orientation, hover support.</p>
+        </a>
+        <a class="card" th:href="@{/mobile}">
+            <h2>5. Mobile CSS</h2>
+            <p>Touch targets, viewports, safe areas, mobile-first patterns.</p>
+        </a>
+    </section>
+
+    <section class="tip-box">
+        <strong>Tip:</strong> open this page on your phone, or use your browser's
+        device toolbar (Cmd/Ctrl+Shift+M in DevTools) to follow the mobile lessons.
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

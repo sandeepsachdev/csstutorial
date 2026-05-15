@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Box Model')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1>The Box Model</h1>
+    <p class="lead">Every element is a rectangle made of four layers: content, padding, border, margin.</p>
+
+    <h2>Visualized</h2>
+    <div class="boxmodel-demo">
+        <div class="margin-layer">margin
+            <div class="border-layer">border
+                <div class="padding-layer">padding
+                    <div class="content-layer">content</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>box-sizing: the most important rule you'll ever write</h2>
+    <p>By default <code>width</code> only counts the content. Switch to
+       <code>border-box</code> so padding and border are included.</p>
+
+    <div class="bs-row">
+        <div class="bs-card bs-content">
+            <h3>content-box (default)</h3>
+            <p>200px width + 20px padding + 4px border = <strong>248px total</strong>.</p>
+        </div>
+        <div class="bs-card bs-border">
+            <h3>border-box</h3>
+            <p>200px width includes the padding and border. <strong>200px total.</strong></p>
+        </div>
+    </div>
+
+    <pre><code>/* Apply once at the top of your stylesheet */
+*, *::before, *::after { box-sizing: border-box; }</code></pre>
+
+    <h2>Margin collapsing</h2>
+    <p>Vertical margins between block siblings <em>collapse</em> to the larger of the two —
+       a quirk that surprises everyone the first time.</p>
+    <div class="collapse-demo">
+        <p>I have <code>margin-bottom: 40px</code></p>
+        <p>I have <code>margin-top: 30px</code></p>
+        <p>The gap is 40px, not 70px.</p>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

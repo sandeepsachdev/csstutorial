@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('CSS Basics')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1>CSS Basics</h1>
+    <p class="lead">CSS (Cascading Style Sheets) describes how HTML elements are displayed.</p>
+
+    <h2>1. Selectors</h2>
+    <p>A selector picks the elements you want to style. The three most common kinds:</p>
+    <pre><code>/* Type selector */
+p { color: #333; }
+
+/* Class selector */
+.callout { background: lightyellow; }
+
+/* ID selector */
+#main-title { font-size: 2rem; }</code></pre>
+
+    <h2>2. The cascade &amp; specificity</h2>
+    <p>When two rules target the same element, the more specific one wins.
+       Roughly: <code>inline &gt; id &gt; class &gt; type</code>.</p>
+    <div class="demo">
+        <p class="cascade-demo" id="cascade-id">I'm styled by three rules — the ID wins.</p>
+    </div>
+
+    <h2>3. Colors &amp; units</h2>
+    <ul>
+        <li><code>#ff6600</code>, <code>rgb(255 102 0)</code>, <code>hsl(24 100% 50%)</code> — color formats</li>
+        <li><code>px</code> — absolute pixels</li>
+        <li><code>rem</code> — relative to the root font size (best for typography)</li>
+        <li><code>em</code> — relative to the parent's font size</li>
+        <li><code>%</code>, <code>vw</code>, <code>vh</code> — relative to the container or viewport</li>
+    </ul>
+
+    <h2>4. Typography</h2>
+    <div class="demo">
+        <p class="type-sample" style="font-family: Georgia, serif;">Georgia, a serif</p>
+        <p class="type-sample" style="font-family: 'Helvetica Neue', Arial, sans-serif;">Helvetica, a sans-serif</p>
+        <p class="type-sample" style="font-family: 'Courier New', monospace;">Courier New, monospace</p>
+        <p class="type-sample" style="font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em;">
+            1.5rem &middot; bold &middot; tracked
+        </p>
+    </div>
+
+    <h2>5. Color palette demo</h2>
+    <div class="palette">
+        <span style="background:#0ea5e9">#0ea5e9</span>
+        <span style="background:#22c55e">#22c55e</span>
+        <span style="background:#f59e0b">#f59e0b</span>
+        <span style="background:#ef4444">#ef4444</span>
+        <span style="background:#a855f7">#a855f7</span>
+        <span style="background:#111827">#111827</span>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
