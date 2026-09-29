@@ -219,7 +219,13 @@
     .drawer a:hover, .pg-nav, .pg-ads,
     .hg-left, .hg-right                  { background: #334155; color: var(--color-fg); }
     .msg.them                            { background: #334155; color: var(--color-fg); }
-    .bn-item, .hcard                     { color: var(--color-fg); }
+    .bn-item                             { color: var(--color-fg); }
+    .hcard                               { background: #1e293b; color: var(--color-fg); border-color: #334155; }
     .flip-front                          { background: #1e293b; color: var(--color-fg); }
     .references                          { background: #1e293b; border-left-color: var(--color-accent); }
+    .references h2                       { color: #7dd3fc; }
+    .references .source                  { color: #94a3b8; }
+
+    /* Popular accents that are too dark on our dark surfaces — brighten them */
+    .stat__num, .mini-card h3, .tier h3, .card h2 { color: #38bdf8; }
 }

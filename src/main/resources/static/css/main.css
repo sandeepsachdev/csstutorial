@@ -187,6 +187,7 @@ pre code {
     padding: 1rem 1.25rem;
     border-radius: var(--radius);
     margin: 2rem 0;
+    color: #0f172a;
 }
 
 /* ---------- Table of contents (flexbox page) ---------- */
