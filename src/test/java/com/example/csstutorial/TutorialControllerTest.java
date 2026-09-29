@@ -84,4 +84,19 @@ class TutorialControllerTest {
                .andExpect(content().string(org.hamcrest.Matchers.containsString("<pre><code>")));
         }
     }
+
+    @Test
+    void everyPageHasFurtherReading() throws Exception {
+        String[] paths = {
+            "/", "/basics", "/box-model", "/positioning",
+            "/flexbox", "/grid",
+            "/media-queries", "/mobile", "/animations"
+        };
+        for (String path : paths) {
+            mvc.perform(get(path))
+               .andExpect(status().isOk())
+               .andExpect(content().string(org.hamcrest.Matchers.containsString("references")))
+               .andExpect(content().string(org.hamcrest.Matchers.containsString("developer.mozilla.org")));
+        }
+    }
 }

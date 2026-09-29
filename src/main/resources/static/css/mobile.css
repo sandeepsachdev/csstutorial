@@ -221,4 +221,5 @@
     .msg.them                            { background: #334155; color: var(--color-fg); }
     .bn-item, .hcard                     { color: var(--color-fg); }
     .flip-front                          { background: #1e293b; color: var(--color-fg); }
+    .references                          { background: #1e293b; border-left-color: var(--color-accent); }
 }
