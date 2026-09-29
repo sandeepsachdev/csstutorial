@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Positioning')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1>CSS Positioning</h1>
+    <p class="lead">
+        The <code>position</code> property controls how an element is placed relative to
+        the document, its container, or the viewport. There are five values you use
+        every day: <code>static</code>, <code>relative</code>, <code>absolute</code>,
+        <code>fixed</code>, and <code>sticky</code>.
+    </p>
+
+    <nav class="toc">
+        <strong>On this page:</strong>
+        <a href="#static">1. static</a>
+        <a href="#relative">2. relative</a>
+        <a href="#absolute">3. absolute</a>
+        <a href="#badge">4. Badge overlay</a>
+        <a href="#fixed">5. fixed</a>
+        <a href="#sticky">6. sticky</a>
+        <a href="#zindex">7. z-index</a>
+        <a href="#center">8. Perfect centering</a>
+        <a href="#tooltip">9. Tooltip</a>
+        <a href="#modal">10. Modal &amp; scrim</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="example" id="static">
+        <h2>1. <code>position: static</code> — the default</h2>
+        <div class="pos-demo">
+            <div class="pos-box pos-static">static</div>
+            <p>I sit right after the box, in normal flow.</p>
+        </div>
+<pre><code>.pos-static {
+  position: static;    /* default — top/left/z-index have no effect */
+}</code></pre>
+    </section>
+
+    <!-- 2 -->
+    <section class="example" id="relative">
+        <h2>2. <code>position: relative</code> — nudge without leaving flow</h2>
+        <div class="pos-demo">
+            <div class="pos-box pos-relative">relative<br/>top: 15px<br/>left: 30px</div>
+            <p>The next element ignores my nudge — my slot in the flow is preserved.</p>
+        </div>
+<pre><code>.pos-relative {
+  position: relative;
+  top:  15px;
+  left: 30px;
+}
+/* Also crucial: makes THIS element a positioning parent for
+   any absolutely-positioned descendants. */</code></pre>
+    </section>
+
+    <!-- 3 -->
+    <section class="example" id="absolute">
+        <h2>3. <code>position: absolute</code> — removed from flow, placed against nearest positioned ancestor</h2>
+        <div class="pos-container">
+            I'm the positioned container (position: relative).
+            <div class="pos-abs tl">top-left</div>
+            <div class="pos-abs tr">top-right</div>
+            <div class="pos-abs bl">bottom-left</div>
+            <div class="pos-abs br">bottom-right</div>
+            <div class="pos-abs center">centered</div>
+        </div>
+<pre><code>.pos-container { position: relative; height: 220px; }
+
+.pos-abs      { position: absolute; padding: 0.25rem 0.5rem; background: #0ea5e9; color: white; }
+.tl { top: 8px;    left: 8px;   }
+.tr { top: 8px;    right: 8px;  }
+.bl { bottom: 8px; left: 8px;   }
+.br { bottom: 8px; right: 8px;  }
+
+/* Centering with absolute — the classic 4-line trick */
+.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}</code></pre>
+    </section>
+
+    <!-- 4 -->
+    <section class="example" id="badge">
+        <h2>4. A notification badge — the everyday use of absolute</h2>
+        <div class="badge-row">
+            <div class="badge-btn">
+                Inbox
+                <span class="badge-count">7</span>
+            </div>
+            <div class="badge-btn">
+                🔔
+                <span class="badge-dot"></span>
+            </div>
+        </div>
+<pre><code>.badge-btn { position: relative; padding: 0.6rem 1rem; background: #f1f5f9; border-radius: 8px; }
+
+.badge-count {
+  position: absolute;
+  top: -6px; right: -6px;
+  min-width: 20px; height: 20px;
+  padding: 0 6px;
+  background: #ef4444; color: white;
+  border-radius: 999px;
+  font-size: 0.7rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.badge-dot {
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+}</code></pre>
+    </section>
+
+    <!-- 5 -->
+    <section class="example" id="fixed">
+        <h2>5. <code>position: fixed</code> — pinned to the viewport</h2>
+        <p>The site header at the top of this page is <em>almost</em> fixed — it uses
+           <code>sticky</code>, which is nicer. But a true FAB (floating action button)
+           uses <code>fixed</code>. Look at the bottom-right corner:</p>
+<pre><code>.fab {
+  position: fixed;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  right:  calc(1rem + env(safe-area-inset-right));
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #0ea5e9; color: white;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+  z-index: 50;
+}
+/* Stays put when the page scrolls. Independent of any parent's overflow. */</code></pre>
+        <button class="fab" title="Floating action button">＋</button>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="sticky">
+        <h2>6. <code>position: sticky</code> — behaves like relative until you scroll past a threshold</h2>
+        <div class="sticky-demo">
+            <div class="sticky-scroller">
+                <div class="sticky-section">
+                    <h3 class="sticky-head">Section A</h3>
+                    <p>Scroll down inside this box. The heading sticks to the top of
+                       the scroll container until Section B pushes it out.</p>
+                    <p>Filler line 1</p><p>Filler line 2</p><p>Filler line 3</p>
+                </div>
+                <div class="sticky-section">
+                    <h3 class="sticky-head">Section B</h3>
+                    <p>My heading takes over. Common uses: table row headings,
+                       date dividers, section titles.</p>
+                    <p>Filler line 1</p><p>Filler line 2</p><p>Filler line 3</p>
+                </div>
+                <div class="sticky-section">
+                    <h3 class="sticky-head">Section C</h3>
+                    <p>You get the idea.</p>
+                    <p>Filler line 1</p><p>Filler line 2</p>
+                </div>
+            </div>
+        </div>
+<pre><code>.sticky-scroller { overflow-y: auto; max-height: 260px; }
+
+.sticky-head {
+  position: sticky;
+  top: 0;                       /* stick when it reaches the scroller's top */
+  background: #0ea5e9; color: white;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+}
+/* Sticky needs a scrollable ancestor and a top/left/right/bottom value. */</code></pre>
+    </section>
+
+    <!-- 7 -->
+    <section class="example" id="zindex">
+        <h2>7. <code>z-index</code> — stacking order</h2>
+        <div class="zdemo">
+            <div class="zbox z1">z-index: 1</div>
+            <div class="zbox z2">z-index: 3</div>
+            <div class="zbox z3">z-index: 2</div>
+        </div>
+<pre><code>.zbox { position: absolute; width: 100px; height: 100px; }
+.z1 { z-index: 1; background: #ef4444; top:  0;    left:  0;   }
+.z2 { z-index: 3; background: #22c55e; top: 30px;  left: 60px; }
+.z3 { z-index: 2; background: #0ea5e9; top: 60px;  left:120px; }
+
+/* Rules to remember:
+   - z-index only works on positioned elements (not static).
+   - It applies within a "stacking context". A parent with opacity &lt; 1,
+     transform, filter, or z-index creates one — children of different
+     contexts can't interleave.  */</code></pre>
+    </section>
+
+    <!-- 8 -->
+    <section class="example" id="center">
+        <h2>8. Three ways to center absolutely</h2>
+<pre><code>/* Classic: percent offset + transform */
+.center-a {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Modern: inset shorthand + margin auto */
+.center-b {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 200px; height: 100px;
+}
+
+/* Best: don't position at all — use flex/grid on the parent */
+.parent { display: grid; place-items: center; }</code></pre>
+    </section>
+
+    <!-- 9 -->
+    <section class="example" id="tooltip">
+        <h2>9. A pure-CSS tooltip</h2>
+        <p>Hover the button below on desktop, or long-press on touch.</p>
+        <button class="tip-btn" data-tip="Saves your work to the cloud">Save</button>
+<pre><code>.tip-btn { position: relative; }
+
+.tip-btn::after {
+  content: attr(data-tip);      /* pull the label from the HTML attribute */
+  position: absolute;
+  bottom: calc(100% + 8px);     /* sit 8px above the button              */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827; color: white;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.tip-btn:hover::after,
+.tip-btn:focus-visible::after { opacity: 1; }</code></pre>
+    </section>
+
+    <!-- 10 -->
+    <section class="example" id="modal">
+        <h2>10. Modal &amp; scrim (no JavaScript)</h2>
+        <p>Click below — the checkbox drives the state.</p>
+        <input type="checkbox" id="modal-toggle" class="modal-toggle"/>
+        <label for="modal-toggle" class="modal-open">Open modal</label>
+        <div class="modal-scrim"></div>
+        <div class="modal">
+            <h3>A CSS-only modal</h3>
+            <p>The scrim is a fixed layer under the modal; the modal is centered
+               with flex.</p>
+            <label for="modal-toggle" class="modal-close">Close</label>
+        </div>
+<pre><code>.modal-toggle { display: none; }
+
+.modal-scrim {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 40;
+}
+
+.modal {
+  position: fixed; inset: 0;
+  margin: auto;
+  width: min(90vw, 400px); height: fit-content;
+  padding: 1.5rem;
+  background: white; border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  opacity: 0; transform: scale(0.95); pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 50;
+}
+
+.modal-toggle:checked ~ .modal-scrim,
+.modal-toggle:checked ~ .modal {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-toggle:checked ~ .modal { transform: scale(1); }</code></pre>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

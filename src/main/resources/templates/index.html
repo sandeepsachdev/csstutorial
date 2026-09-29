@@ -8,37 +8,52 @@
     <section class="hero">
         <h1>Learn CSS the practical way</h1>
         <p class="lead">
-            A hands-on tutorial covering CSS fundamentals, the box model, flexbox,
-            media queries, and mobile-first design — running on Spring Boot.
+            A hands-on tutorial covering CSS fundamentals, the box model, positioning,
+            flexbox, grid, media queries, mobile-first design, and animations — running
+            on Spring Boot. <strong>Every example on this site shows the exact CSS it
+            uses.</strong> Copy, paste, tweak.
         </p>
     </section>
 
     <section class="card-grid">
         <a class="card" th:href="@{/basics}">
             <h2>1. CSS Basics</h2>
-            <p>Selectors, the cascade, specificity, colors, units, typography.</p>
+            <p>Selectors, cascade, specificity, colors, units, typography, pseudo-classes, custom properties.</p>
         </a>
         <a class="card" th:href="@{/box-model}">
             <h2>2. Box Model</h2>
-            <p>Margin, border, padding, content. box-sizing demystified.</p>
+            <p>Margin, border, padding, content. <code>box-sizing</code>, <code>overflow</code>, <code>display</code>.</p>
+        </a>
+        <a class="card" th:href="@{/positioning}">
+            <h2>3. Positioning</h2>
+            <p><code>static</code>, <code>relative</code>, <code>absolute</code>, <code>fixed</code>, <code>sticky</code>, and z-index.</p>
         </a>
         <a class="card" th:href="@{/flexbox}">
-            <h2>3. Flexbox</h2>
-            <p>15+ live examples: rows, columns, wrapping, alignment, growth.</p>
+            <h2>4. Flexbox</h2>
+            <p>22 live examples: rows, columns, wrap, grow/shrink, holy grail, media object, chat bubbles.</p>
+        </a>
+        <a class="card" th:href="@{/grid}">
+            <h2>5. CSS Grid</h2>
+            <p>Columns, rows, gap, spanning, template-areas, <code>minmax</code>, <code>auto-fit</code>.</p>
         </a>
         <a class="card" th:href="@{/media-queries}">
-            <h2>4. Media Queries</h2>
-            <p>Breakpoints, min-width vs max-width, orientation, hover support.</p>
+            <h2>6. Media Queries</h2>
+            <p>Breakpoints, <code>prefers-color-scheme</code>, hover detection, container queries.</p>
         </a>
         <a class="card" th:href="@{/mobile}">
-            <h2>5. Mobile CSS</h2>
-            <p>Touch targets, viewports, safe areas, mobile-first patterns.</p>
+            <h2>7. Mobile CSS</h2>
+            <p>Touch targets, viewports, safe areas, bottom nav, mobile forms, drawer, sticky CTA.</p>
+        </a>
+        <a class="card" th:href="@{/animations}">
+            <h2>8. Animations</h2>
+            <p>Transitions, transforms, <code>@keyframes</code>, hover effects, respectful motion.</p>
         </a>
     </section>
 
     <section class="tip-box">
         <strong>Tip:</strong> open this page on your phone, or use your browser's
         device toolbar (Cmd/Ctrl+Shift+M in DevTools) to follow the mobile lessons.
+        Toggle your OS to dark mode and the whole site flips theme.
     </section>
 </main>
 

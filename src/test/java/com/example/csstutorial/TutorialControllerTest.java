@@ -39,9 +39,49 @@ class TutorialControllerTest {
     }
 
     @Test
+    void gridPageRenders() throws Exception {
+        mvc.perform(get("/grid"))
+           .andExpect(status().isOk())
+           .andExpect(content().string(org.hamcrest.Matchers.containsString("grid-template-columns")));
+    }
+
+    @Test
+    void positioningPageRenders() throws Exception {
+        mvc.perform(get("/positioning"))
+           .andExpect(status().isOk())
+           .andExpect(content().string(org.hamcrest.Matchers.containsString("position: sticky")));
+    }
+
+    @Test
+    void animationsPageRenders() throws Exception {
+        mvc.perform(get("/animations"))
+           .andExpect(status().isOk())
+           .andExpect(content().string(org.hamcrest.Matchers.containsString("@keyframes")));
+    }
+
+    @Test
     void allPagesReturn200() throws Exception {
-        for (String path : new String[]{"/basics", "/box-model", "/flexbox", "/media-queries", "/mobile"}) {
+        String[] paths = {
+            "/basics", "/box-model", "/positioning",
+            "/flexbox", "/grid",
+            "/media-queries", "/mobile", "/animations"
+        };
+        for (String path : paths) {
             mvc.perform(get(path)).andExpect(status().isOk());
+        }
+    }
+
+    @Test
+    void everyPageShowsCssSnippet() throws Exception {
+        String[] paths = {
+            "/basics", "/box-model", "/positioning",
+            "/flexbox", "/grid",
+            "/media-queries", "/mobile", "/animations"
+        };
+        for (String path : paths) {
+            mvc.perform(get(path))
+               .andExpect(status().isOk())
+               .andExpect(content().string(org.hamcrest.Matchers.containsString("<pre><code>")));
         }
     }
 }

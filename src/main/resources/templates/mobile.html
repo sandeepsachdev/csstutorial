@@ -8,99 +8,348 @@
     <h1>CSS for Mobile Devices</h1>
     <p class="lead">
         Phones are not just narrow desktops. They have touch input, notches,
-        on-screen keyboards, retina displays, and limited bandwidth. This page covers
-        the CSS techniques that matter most.
+        on-screen keyboards, retina displays, and limited bandwidth. This page
+        covers the CSS techniques that matter most, with the exact rules used.
     </p>
 
-    <h2>1. The viewport meta tag (HTML, not CSS — but essential)</h2>
-    <pre><code>&lt;meta name="viewport"
-      content="width=device-width, initial-scale=1.0"&gt;</code></pre>
-    <p>Without this the browser will render at 980px and scale down, ruining all your
-       carefully designed mobile styles. Every page in this app sets it.</p>
+    <nav class="toc">
+        <strong>On this page:</strong>
+        <a href="#viewport">1. Viewport meta</a>
+        <a href="#first">2. Mobile-first</a>
+        <a href="#touch">3. Touch targets</a>
+        <a href="#safe">4. Safe areas</a>
+        <a href="#fluid">5. Fluid type</a>
+        <a href="#vis">6. Show/hide</a>
+        <a href="#hover">7. Hover on touch</a>
+        <a href="#stack">8. Stack columns</a>
+        <a href="#form">9. Mobile forms</a>
+        <a href="#bottomnav">10. Bottom nav bar</a>
+        <a href="#drawer">11. Slide-in drawer</a>
+        <a href="#cta">12. Sticky mobile CTA</a>
+        <a href="#hscroll">13. Horizontal card scroll</a>
+        <a href="#check">14. Test checklist</a>
+    </nav>
 
-    <h2>2. Mobile-first CSS</h2>
-    <p>Write the phone styles as the default, then add complexity at larger sizes:</p>
-    <pre><code>/* default = phone */
+    <!-- 1 -->
+    <section class="example" id="viewport">
+        <h2>1. The viewport meta tag (HTML, not CSS — but essential)</h2>
+<pre><code>&lt;meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"&gt;</code></pre>
+        <p>Without this the browser will render at 980px and scale down, ruining all your
+           carefully designed mobile styles. Every page in this app sets it.</p>
+    </section>
+
+    <!-- 2 -->
+    <section class="example" id="first">
+        <h2>2. Mobile-first CSS</h2>
+        <p>Write the phone styles as the default, then add complexity at larger sizes.</p>
+<pre><code>/* base = phone (no media query needed) */
 .card { padding: 1rem; font-size: 1rem; }
 
 /* enhance for tablets+ */
 @media (min-width: 768px) {
   .card { padding: 2rem; font-size: 1.125rem; }
 }</code></pre>
+    </section>
 
-    <h2>3. Touch targets — aim for 44×44px minimum</h2>
-    <p>Apple's HIG and the WCAG both recommend a tappable area of at least
-       44×44 CSS pixels. Compare these two buttons (with the device toolbar open):</p>
-    <div class="touch-row">
-        <button class="touch bad">Too small</button>
-        <button class="touch good">Just right</button>
-    </div>
+    <!-- 3 -->
+    <section class="example" id="touch">
+        <h2>3. Touch targets — aim for 44×44px minimum</h2>
+        <p>Apple's HIG and the WCAG both recommend a tappable area of at least
+           44×44 CSS pixels. Compare these two buttons:</p>
+        <div class="touch-row">
+            <button class="touch bad">✕</button>
+            <button class="touch good">Just right</button>
+        </div>
+<pre><code>.touch.bad {
+  width: 24px; height: 24px;   /* too small, hard to hit */
+  padding: 0;
+}
 
-    <h2>4. Safe-area insets (notches, home indicators)</h2>
-    <pre><code>/* In your &lt;head&gt;: */
+.touch.good {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem 1rem;         /* extra tap area beyond the visible size */
+}
+
+/* Enlarge tap targets invisibly with ::before */
+.icon-btn { position: relative; }
+.icon-btn::before {
+  content: "";
+  position: absolute;
+  inset: -8px;                  /* pushes the invisible hit-zone outward */
+}</code></pre>
+    </section>
+
+    <!-- 4 -->
+    <section class="example" id="safe">
+        <h2>4. Safe-area insets (notches, home indicators)</h2>
+<pre><code>/* In your &lt;head&gt;: */
 &lt;meta name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"&gt;
 
 /* In your CSS: */
 .footer {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+.header {
+  padding-top:  calc(0.75rem + env(safe-area-inset-top));
+  padding-left: calc(1rem + env(safe-area-inset-left));
+  padding-right:calc(1rem + env(safe-area-inset-right));
 }</code></pre>
-    <p><code>env(safe-area-inset-*)</code> exposes the device's reserved areas so your
-       buttons don't sit under the home indicator.</p>
+        <p><code>env(safe-area-inset-*)</code> exposes the device's reserved areas so your
+           buttons don't sit under the home indicator or the notch.</p>
+    </section>
 
-    <h2>5. Fluid typography with <code>clamp()</code></h2>
-    <pre><code>h1 { font-size: clamp(1.5rem, 4vw + 1rem, 3rem); }</code></pre>
-    <p>This headline scales smoothly between mobile and desktop sizes:</p>
-    <h3 class="fluid-heading">Resize me to see <code>clamp()</code> at work.</h3>
+    <!-- 5 -->
+    <section class="example" id="fluid">
+        <h2>5. Fluid typography with <code>clamp()</code></h2>
+        <h3 class="fluid-heading">Resize me to see clamp() at work.</h3>
+<pre><code>.fluid-heading {
+  /* clamp(min, preferred, max)
+     - grows/shrinks with the viewport
+     - never smaller than 1.25rem
+     - never bigger than 2.5rem                                    */
+  font-size: clamp(1.25rem, 4vw + 0.5rem, 2.5rem);
+}
 
-    <h2>6. Hide / show by viewport</h2>
-    <p>Two small helpers used everywhere in this tutorial:</p>
-    <pre><code>.mobile-only  { display: block; }
+/* Fluid spacing works the same way */
+.section { padding: clamp(1rem, 3vw, 3rem); }</code></pre>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="vis">
+        <h2>6. Show / hide by viewport</h2>
+        <div class="vis-demo">
+            <span class="mobile-only">Phone view</span>
+            <span class="desktop-only">Tablet/desktop view</span>
+        </div>
+<pre><code>.mobile-only  { display: inline; }
 .desktop-only { display: none; }
 
 @media (min-width: 768px) {
   .mobile-only  { display: none; }
-  .desktop-only { display: block; }
-}</code></pre>
-    <div class="vis-demo">
-        <span class="mobile-only">Phone view</span>
-        <span class="desktop-only">Tablet/desktop view</span>
-    </div>
+  .desktop-only { display: inline; }
+}
+/* Prefer showing different CONTENT this way; prefer restyling the SAME
+   element (with flex-direction, grid, etc.) whenever possible. */</code></pre>
+    </section>
 
-    <h2>7. Disable hover styles on touch devices</h2>
-    <pre><code>@media (hover: hover) {
+    <!-- 7 -->
+    <section class="example" id="hover">
+        <h2>7. Disable hover styles on touch devices</h2>
+<pre><code>/* Only apply hover effects when the device actually has a hover-capable pointer */
+@media (hover: hover) {
   .card:hover { transform: translateY(-2px); }
-}</code></pre>
-    <p>Only apply hover effects when the device actually has a hover-capable pointer.
-       This avoids "sticky hover" on phones.</p>
+}
 
-    <h2>8. Stack columns on small screens</h2>
-    <div class="stack-demo">
-        <aside>Sidebar</aside>
-        <section>Main content. Resize and watch the sidebar move above on phones.</section>
-    </div>
-    <pre><code>.stack-demo {
+/* Reset the ugly grey iOS tap flash */
+a, button { -webkit-tap-highlight-color: rgba(14, 165, 233, 0.2); }</code></pre>
+    </section>
+
+    <!-- 8 -->
+    <section class="example" id="stack">
+        <h2>8. Stack columns on small screens</h2>
+        <div class="stack-demo">
+            <aside>Sidebar</aside>
+            <section>Main content. Resize and watch the sidebar move above on phones.</section>
+        </div>
+<pre><code>.stack-demo {
   display: flex;
-  flex-direction: column;
+  flex-direction: column;     /* stacked on phones */
   gap: 1rem;
 }
+
 @media (min-width: 768px) {
   .stack-demo { flex-direction: row; }
+  .stack-demo aside   { flex: 0 0 200px; }
+  .stack-demo section { flex: 1; }
 }</code></pre>
+    </section>
 
-    <h2>9. Smooth scrolling &amp; tap highlight</h2>
-    <pre><code>html { scroll-behavior: smooth; }
-a, button { -webkit-tap-highlight-color: transparent; }</code></pre>
+    <!-- 9 -->
+    <section class="example" id="form">
+        <h2>9. Mobile-friendly forms</h2>
+        <form class="mform" onsubmit="event.preventDefault()">
+            <label>Email
+                <input type="email" inputmode="email" autocomplete="email" placeholder="you@example.com"/>
+            </label>
+            <label>Phone
+                <input type="tel" inputmode="tel" autocomplete="tel" placeholder="555 000 0000"/>
+            </label>
+            <button type="submit">Send</button>
+        </form>
+<pre><code>/* Inputs must be at least 16px or iOS zooms in on focus */
+.mform input {
+  font-size: 16px;
+  padding: 0.75rem;             /* generous tap area          */
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  width: 100%;
+}
 
-    <h2>10. Test checklist</h2>
-    <ul class="checklist">
-        <li>Open in Chrome DevTools device toolbar at 360×640 (small Android).</li>
-        <li>Verify nothing scrolls horizontally.</li>
-        <li>Verify text is at least 16px (avoids zoom-on-focus on iOS).</li>
-        <li>Tap each button with the mouse — are they easy to hit?</li>
-        <li>Try landscape orientation.</li>
-        <li>Try the OS dark mode.</li>
-    </ul>
+.mform label { display: flex; flex-direction: column; gap: 0.25rem; }
+.mform       { display: flex; flex-direction: column; gap: 1rem;   }
+
+/* Bonus — HTML attributes matter as much as CSS on mobile */
+&lt;input type="email"    inputmode="email"    autocomplete="email"&gt;
+&lt;input type="tel"      inputmode="tel"      autocomplete="tel"&gt;
+&lt;input type="number"   inputmode="decimal"&gt;
+&lt;input type="search"   enterkeyhint="search"&gt;</code></pre>
+    </section>
+
+    <!-- 10 -->
+    <section class="example" id="bottomnav">
+        <h2>10. Bottom navigation bar (iOS / Android pattern)</h2>
+        <div class="bottom-nav-demo">
+            <div class="bn-page">Page content sits above the bar</div>
+            <nav class="bn">
+                <a class="bn-item active"><span class="bn-icon">⌂</span><span>Home</span></a>
+                <a class="bn-item"><span class="bn-icon">🔍</span><span>Search</span></a>
+                <a class="bn-item"><span class="bn-icon">＋</span><span>New</span></a>
+                <a class="bn-item"><span class="bn-icon">♥</span><span>Saved</span></a>
+                <a class="bn-item"><span class="bn-icon">☺</span><span>Profile</span></a>
+            </nav>
+        </div>
+<pre><code>.bn {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem 0.5rem calc(0.5rem + env(safe-area-inset-bottom));
+  background: white;
+  border-top: 1px solid #e5e7eb;
+
+  /* Stick to the bottom of the viewport in a real app: */
+  /* position: fixed; inset: auto 0 0 0; */
+}
+
+.bn-item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-width: 44px; min-height: 44px;   /* touch target */
+  font-size: 0.7rem;
+  color: #6b7280;
+  text-decoration: none;
+}
+.bn-item.active { color: #0ea5e9; font-weight: 600; }
+.bn-icon        { font-size: 1.35rem; }</code></pre>
+    </section>
+
+    <!-- 11 -->
+    <section class="example" id="drawer">
+        <h2>11. Slide-in drawer / off-canvas menu</h2>
+        <p>Toggle the checkbox — no JavaScript needed.</p>
+        <div class="drawer-demo">
+            <input type="checkbox" id="drawer-toggle" class="drawer-checkbox"/>
+            <label for="drawer-toggle" class="drawer-btn">☰ Menu</label>
+            <div class="drawer-scrim"></div>
+            <aside class="drawer">
+                <label for="drawer-toggle" class="drawer-close">✕</label>
+                <a>Home</a><a>Projects</a><a>Team</a><a>Settings</a>
+            </aside>
+        </div>
+<pre><code>.drawer-checkbox { display: none; }
+
+.drawer {
+  position: fixed;
+  inset: 0 auto 0 0;                /* top:0 bottom:0 left:0 */
+  width: min(80vw, 320px);
+  background: white;
+  padding: 1rem;
+  transform: translateX(-100%);     /* start off-screen */
+  transition: transform 0.25s ease;
+  z-index: 20;
+}
+
+.drawer-scrim {
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 10;
+}
+
+/* The checkbox drives the state (:checked ~ sibling combinator) */
+.drawer-checkbox:checked ~ .drawer       { transform: translateX(0); }
+.drawer-checkbox:checked ~ .drawer-scrim { opacity: 1; pointer-events: auto; }</code></pre>
+    </section>
+
+    <!-- 12 -->
+    <section class="example" id="cta">
+        <h2>12. Sticky mobile CTA</h2>
+        <div class="cta-demo">
+            <div class="cta-content"><p>Product description sits here. Scroll…</p><p>…and the button below stays put.</p></div>
+            <div class="cta-bar"><button class="cta-btn">Add to cart · $29</button></div>
+        </div>
+<pre><code>.cta-bar {
+  position: sticky;         /* or fixed for a full-viewport bar */
+  bottom: 0;
+  padding: 0.75rem calc(0.75rem + env(safe-area-inset-right))
+           calc(0.75rem + env(safe-area-inset-bottom))
+           calc(0.75rem + env(safe-area-inset-left));
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+.cta-btn {
+  width: 100%;
+  min-height: 48px;
+  background: #0ea5e9; color: white;
+  border: none; border-radius: 8px;
+  font-size: 1rem; font-weight: 600;
+}</code></pre>
+    </section>
+
+    <!-- 13 -->
+    <section class="example" id="hscroll">
+        <h2>13. Horizontal card scroll (like the App Store)</h2>
+        <div class="hscroll">
+            <div class="hscard">Card 1</div>
+            <div class="hscard">Card 2</div>
+            <div class="hscard">Card 3</div>
+            <div class="hscard">Card 4</div>
+            <div class="hscard">Card 5</div>
+            <div class="hscard">Card 6</div>
+        </div>
+<pre><code>.hscroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+
+  /* Snap each card to the left edge as you flick */
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 1rem;
+
+  /* Hide the scrollbar visually (still functional) */
+  scrollbar-width: none;
+  padding: 0.5rem 1rem 1rem;
+}
+.hscroll::-webkit-scrollbar { display: none; }
+
+.hscard {
+  flex: 0 0 70%;             /* each card ~70% of the container */
+  scroll-snap-align: start;
+  height: 120px;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: white;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+}</code></pre>
+    </section>
+
+    <!-- 14 -->
+    <section class="example" id="check">
+        <h2>14. Test checklist</h2>
+        <ul class="checklist">
+            <li>Open in Chrome DevTools device toolbar at 360×640 (small Android).</li>
+            <li>Verify nothing scrolls horizontally.</li>
+            <li>Verify body text is ≥ 16px (avoids zoom-on-focus on iOS).</li>
+            <li>Tap each button — are they at least 44×44px?</li>
+            <li>Try landscape orientation.</li>
+            <li>Try the OS dark mode.</li>
+            <li>Turn on "Reduce Motion" and confirm animations calm down.</li>
+            <li>Check safe-area padding on an iPhone with a notch (simulator or real device).</li>
+        </ul>
+    </section>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

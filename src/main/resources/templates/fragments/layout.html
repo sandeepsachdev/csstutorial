@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head(title)">
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
     <title th:text="${title} + ' | CSS Tutorial'">CSS Tutorial</title>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/examples.css}"/>
@@ -21,9 +21,12 @@
             <a th:href="@{/}">Home</a>
             <a th:href="@{/basics}">Basics</a>
             <a th:href="@{/box-model}">Box Model</a>
+            <a th:href="@{/positioning}">Positioning</a>
             <a th:href="@{/flexbox}">Flexbox</a>
+            <a th:href="@{/grid}">Grid</a>
             <a th:href="@{/media-queries}">Media Queries</a>
             <a th:href="@{/mobile}">Mobile</a>
+            <a th:href="@{/animations}">Animations</a>
         </nav>
     </div>
 </header>

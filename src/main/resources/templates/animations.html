@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Animations')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1>Transitions &amp; Animations</h1>
+    <p class="lead">
+        Add motion tastefully. Transitions animate between two states — usually on hover
+        or focus. <code>@keyframes</code> animations run on their own timeline. Always
+        respect <code>prefers-reduced-motion</code>.
+    </p>
+
+    <nav class="toc">
+        <strong>On this page:</strong>
+        <a href="#t1">1. Transition basics</a>
+        <a href="#t2">2. transition shorthand</a>
+        <a href="#t3">3. Multiple properties</a>
+        <a href="#t4">4. Timing functions</a>
+        <a href="#t5">5. transform</a>
+        <a href="#t6">6. Hover effects</a>
+        <a href="#t7">7. @keyframes</a>
+        <a href="#t8">8. Spinner</a>
+        <a href="#t9">9. Bounce</a>
+        <a href="#t10">10. Skeleton loader</a>
+        <a href="#t11">11. Reveal on scroll</a>
+        <a href="#t12">12. Reduced motion</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="example" id="t1">
+        <h2>1. Transition basics — animate a change of value</h2>
+        <div class="anim-row">
+            <div class="t-basic">Hover me</div>
+        </div>
+<pre><code>.t-basic {
+  background: #0ea5e9;
+  transition: background 0.3s;   /* animate background changes over 0.3s */
+}
+.t-basic:hover { background: #ef4444; }
+/* Without the transition line, the color would snap instantly. */</code></pre>
+    </section>
+
+    <!-- 2 -->
+    <section class="example" id="t2">
+        <h2>2. <code>transition</code> shorthand</h2>
+<pre><code>.button {
+  /* property   duration  timing-function  delay */
+  transition: transform  0.2s      ease-out         0s;
+}
+
+/* Longhand equivalent */
+.button {
+  transition-property:        transform;
+  transition-duration:        0.2s;
+  transition-timing-function: ease-out;
+  transition-delay:           0s;
+}</code></pre>
+    </section>
+
+    <!-- 3 -->
+    <section class="example" id="t3">
+        <h2>3. Animating multiple properties</h2>
+        <div class="anim-row">
+            <button class="t-multi">Hover me</button>
+        </div>
+<pre><code>.t-multi {
+  background: #0ea5e9; color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+
+  /* Comma-separate to give each property its own timing */
+  transition:
+    background 0.2s ease,
+    transform  0.2s ease-out,
+    box-shadow 0.3s ease;
+}
+
+.t-multi:hover {
+  background: #0369a1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(3, 105, 161, 0.35);
+}</code></pre>
+    </section>
+
+    <!-- 4 -->
+    <section class="example" id="t4">
+        <h2>4. Timing functions</h2>
+        <div class="timing-row">
+            <div class="t-timing linear">linear</div>
+            <div class="t-timing ease">ease</div>
+            <div class="t-timing ease-in">ease-in</div>
+            <div class="t-timing ease-out">ease-out</div>
+            <div class="t-timing bezier">cubic-bezier</div>
+        </div>
+        <p>Hover the container above to trigger each track.</p>
+<pre><code>.t-timing.linear    { transition: transform 1s linear; }
+.t-timing.ease      { transition: transform 1s ease; }
+.t-timing.ease-in   { transition: transform 1s ease-in; }
+.t-timing.ease-out  { transition: transform 1s ease-out; }
+.t-timing.bezier    { transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+
+.timing-row:hover .t-timing { transform: translateX(220px); }</code></pre>
+    </section>
+
+    <!-- 5 -->
+    <section class="example" id="t5">
+        <h2>5. <code>transform</code> — cheap, GPU-accelerated motion</h2>
+        <div class="transform-row">
+            <div class="tf translate">translate</div>
+            <div class="tf rotate">rotate</div>
+            <div class="tf scale">scale</div>
+            <div class="tf skew">skew</div>
+        </div>
+<pre><code>.tf.translate:hover { transform: translate(20px, -10px); }
+.tf.rotate:hover    { transform: rotate(15deg); }
+.tf.scale:hover     { transform: scale(1.2); }
+.tf.skew:hover      { transform: skew(10deg, 0); }
+
+/* Combine — order matters (applied right-to-left) */
+.tf.combo:hover { transform: translateY(-4px) scale(1.05) rotate(-2deg); }
+
+/* Always transition transform (and opacity). Avoid animating layout
+   properties like width/height/top/left — they trigger reflow. */
+.tf { transition: transform 0.2s ease-out; }</code></pre>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="t6">
+        <h2>6. Popular hover effects</h2>
+        <div class="hover-row">
+            <div class="hcard lift">Lift</div>
+            <div class="hcard glow">Glow</div>
+            <div class="hcard underline">Underline<br/>sweep</div>
+            <div class="hcard flip">
+                <div class="flip-inner">
+                    <div class="flip-front">Front</div>
+                    <div class="flip-back">Back</div>
+                </div>
+            </div>
+        </div>
+<pre><code>/* Lift */
+.hcard.lift { transition: transform 0.2s, box-shadow 0.2s; }
+.hcard.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+/* Glow */
+.hcard.glow { transition: box-shadow 0.3s; }
+.hcard.glow:hover { box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.35); }
+
+/* Underline sweep with a gradient background */
+.hcard.underline {
+  background-image: linear-gradient(currentColor 0 0);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 2px;
+  transition: background-size 0.3s;
+}
+.hcard.underline:hover { background-size: 100% 2px; }
+
+/* Flip card — needs perspective on the parent */
+.hcard.flip     { perspective: 800px; }
+.flip-inner     { position: relative; width: 100%; height: 100%;
+                  transform-style: preserve-3d; transition: transform 0.5s; }
+.hcard.flip:hover .flip-inner { transform: rotateY(180deg); }
+.flip-front,
+.flip-back      { position: absolute; inset: 0; backface-visibility: hidden;
+                  display: flex; align-items: center; justify-content: center; }
+.flip-back      { transform: rotateY(180deg); background: #6366f1; color: white; }</code></pre>
+    </section>
+
+    <!-- 7 -->
+    <section class="example" id="t7">
+        <h2>7. <code>@keyframes</code> — animations on their own timeline</h2>
+        <div class="kf-row">
+            <div class="pulse"></div>
+            <div class="fade-in">Fades in</div>
+        </div>
+<pre><code>@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 1;   }
+  50%  { transform: scale(1.4); opacity: 0.5; }
+  100% { transform: scale(1);   opacity: 1;   }
+}
+
+.pulse {
+  width: 40px; height: 40px;
+  background: #0ea5e9; border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);  }
+}
+.fade-in { animation: fadeIn 0.6s ease-out both; }
+
+/* Shorthand: name duration timing delay iteration-count direction fill-mode */
+.item { animation: fadeIn 0.5s ease-out 0.2s 1 normal both; }</code></pre>
+    </section>
+
+    <!-- 8 -->
+    <section class="example" id="t8">
+        <h2>8. Loading spinner</h2>
+        <div class="anim-row"><div class="spinner"></div></div>
+<pre><code>@keyframes spin { to { transform: rotate(360deg); } }
+
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #0ea5e9;      /* the "hand" of the spinner */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}</code></pre>
+    </section>
+
+    <!-- 9 -->
+    <section class="example" id="t9">
+        <h2>9. Bouncy attention-getter</h2>
+        <div class="anim-row"><span class="bounce">👋</span></div>
+<pre><code>@keyframes bounce {
+  0%, 100% { transform: translateY(0);   }
+  25%      { transform: translateY(-8px);}
+  50%      { transform: translateY(0);   }
+  75%      { transform: translateY(-4px);}
+}
+
+.bounce {
+  display: inline-block;   /* transforms don't apply to plain inline text */
+  font-size: 2rem;
+  animation: bounce 1.5s ease-in-out 0.5s 3;  /* delay 0.5s, repeat 3× */
+}</code></pre>
+    </section>
+
+    <!-- 10 -->
+    <section class="example" id="t10">
+        <h2>10. Skeleton loader (shimmer)</h2>
+        <div class="skeleton skel-line" style="width: 70%"></div>
+        <div class="skeleton skel-line" style="width: 90%"></div>
+        <div class="skeleton skel-line" style="width: 40%"></div>
+<pre><code>@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg, #e5e7eb 0px, #f3f4f6 40px, #e5e7eb 80px
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.2s linear infinite;
+  border-radius: 4px;
+}
+.skel-line { height: 12px; margin: 0.5rem 0; }</code></pre>
+    </section>
+
+    <!-- 11 -->
+    <section class="example" id="t11">
+        <h2>11. Reveal on scroll (no JavaScript)</h2>
+        <p>Modern CSS can animate as elements enter the viewport using
+           <code>animation-timeline: view()</code>. Currently in Chromium — with
+           Firefox &amp; Safari picking it up.</p>
+<pre><code>@keyframes reveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.card {
+  animation: reveal linear both;
+  animation-timeline: view();               /* drive it by scroll position    */
+  animation-range: entry 20% cover 40%;     /* between these viewport ranges  */
+}
+
+/* Fallback for browsers without scroll timelines */
+@supports not (animation-timeline: view()) {
+  .card { animation: reveal 0.5s ease-out both; }
+}</code></pre>
+    </section>
+
+    <!-- 12 -->
+    <section class="example" id="t12">
+        <h2>12. Respect <code>prefers-reduced-motion</code></h2>
+<pre><code>/* Anyone who has "Reduce motion" enabled gets a calmer experience */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* This app already applies this rule globally in mobile.css. */</code></pre>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

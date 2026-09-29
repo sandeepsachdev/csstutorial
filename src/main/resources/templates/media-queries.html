@@ -5,64 +5,190 @@
 <header th:replace="~{fragments/layout :: header}"></header>
 
 <main class="container">
-    <h1>Media Queries</h1>
+    <h1>Media &amp; Container Queries</h1>
     <p class="lead">
         Media queries apply CSS only when conditions match — the most common being
         the viewport width. Resize this page or rotate your phone to see the demos react.
+        Container queries do the same thing based on the size of a parent element.
     </p>
 
-    <h2>Anatomy of a media query</h2>
-    <pre><code>@media (min-width: 768px) {
+    <nav class="toc">
+        <strong>On this page:</strong>
+        <a href="#anatomy">1. Anatomy</a>
+        <a href="#badge">2. Live badge</a>
+        <a href="#breakpoints">3. Breakpoints</a>
+        <a href="#minmax">4. min vs max-width</a>
+        <a href="#prefers">5. prefers-* queries</a>
+        <a href="#grid">6. Responsive grid</a>
+        <a href="#container">7. Container queries</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="example" id="anatomy">
+        <h2>1. Anatomy of a media query</h2>
+<pre><code>@media (min-width: 768px) {
   .card { padding: 2rem; }
+}
+
+/* Combine conditions with "and", separate alternatives with "," */
+@media (min-width: 768px) and (orientation: landscape) { … }
+@media (max-width: 480px), (max-height: 400px)         { … }
+
+/* Negate with "not" */
+@media not all and (min-width: 768px) { … }</code></pre>
+    </section>
+
+    <!-- 2 -->
+    <section class="example" id="badge">
+        <h2>2. Live viewport indicator</h2>
+        <p>The badge below changes color and label based on the active breakpoint.
+           Resize the window to see it react in real time.</p>
+        <div class="viewport-badge">
+            <span class="bp xs">XS &lt; 480px</span>
+            <span class="bp sm">SM 480–767px</span>
+            <span class="bp md">MD 768–1023px</span>
+            <span class="bp lg">LG ≥ 1024px</span>
+        </div>
+<pre><code>.viewport-badge .bp { background: #e5e7eb; color: #6b7280; padding: 0.5rem 0.85rem; }
+
+@media (max-width: 479px) {
+  .viewport-badge .bp.xs { background: #0ea5e9; color: white; }
+}
+@media (min-width: 480px) and (max-width: 767px) {
+  .viewport-badge .bp.sm { background: #22c55e; color: white; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .viewport-badge .bp.md { background: #f59e0b; color: white; }
+}
+@media (min-width: 1024px) {
+  .viewport-badge .bp.lg { background: #ef4444; color: white; }
 }</code></pre>
+    </section>
 
-    <h2>Live viewport indicator</h2>
-    <p>The badge below changes color and label based on the active breakpoint.</p>
-    <div class="viewport-badge">
-        <span class="bp xs">XS &lt; 480px</span>
-        <span class="bp sm">SM 480–767px</span>
-        <span class="bp md">MD 768–1023px</span>
-        <span class="bp lg">LG ≥ 1024px</span>
-    </div>
+    <!-- 3 -->
+    <section class="example" id="breakpoints">
+        <h2>3. Common breakpoints (mobile-first)</h2>
+<pre><code>/* base = phones (no @media needed — these are the default) */
+.card { padding: 1rem; font-size: 1rem; }
 
-    <h2>Common breakpoints (mobile-first)</h2>
-    <pre><code>/* base = phones */
-@media (min-width: 480px) { /* large phones */ }
-@media (min-width: 768px) { /* tablets   */ }
-@media (min-width: 1024px) { /* laptops   */ }
-@media (min-width: 1440px) { /* desktops  */ }</code></pre>
+@media (min-width: 480px)  { /* large phones */ }
+@media (min-width: 768px)  { /* tablets     */ .card { padding: 1.5rem; } }
+@media (min-width: 1024px) { /* laptops     */ .card { padding: 2rem;   } }
+@media (min-width: 1440px) { /* desktops    */ }</code></pre>
+    </section>
 
-    <h2>min-width vs max-width</h2>
-    <ul>
-        <li><strong>min-width</strong> — "from this width and up". Pairs with mobile-first CSS.</li>
-        <li><strong>max-width</strong> — "up to this width". Pairs with desktop-first CSS.</li>
-    </ul>
-    <p>Stick to one approach. Most teams pick mobile-first because the base styles work everywhere
-       and you only add complexity on bigger screens.</p>
+    <!-- 4 -->
+    <section class="example" id="minmax">
+        <h2>4. min-width vs max-width</h2>
+        <ul>
+            <li><strong>min-width</strong> — "from this width and up". Pairs with mobile-first CSS.</li>
+            <li><strong>max-width</strong> — "up to this width". Pairs with desktop-first CSS.</li>
+        </ul>
+        <p>Stick to one. Most teams pick mobile-first because the base styles work everywhere
+           and you only add complexity on bigger screens.</p>
+<pre><code>/* Mobile-first (recommended) */
+.nav { display: block; }             /* stacked default */
+@media (min-width: 768px) {
+  .nav { display: flex; }            /* becomes horizontal on tablets+ */
+}
 
-    <h2>Other useful queries</h2>
-    <pre><code>/* User prefers dark theme */
-@media (prefers-color-scheme: dark) { ... }
+/* Desktop-first (the older style) */
+.nav { display: flex; }
+@media (max-width: 767px) {
+  .nav { display: block; }
+}</code></pre>
+    </section>
 
-/* No fine-pointer device — likely touch */
-@media (hover: none) and (pointer: coarse) { ... }
+    <!-- 5 -->
+    <section class="example" id="prefers">
+        <h2>5. User-preference queries</h2>
+        <p>These respect settings the user has already chosen at the OS level.
+           Every page in this app uses them.</p>
+<pre><code>/* User prefers dark theme */
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f172a; --fg: #e2e8f0; }
+}
 
-/* Reduced motion preference */
-@media (prefers-reduced-motion: reduce) { ... }
+/* Reduced motion — respect vestibular disorders */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
 
-/* Landscape orientation */
-@media (orientation: landscape) { ... }</code></pre>
+/* No hover-capable pointer — likely touch */
+@media (hover: none) and (pointer: coarse) {
+  .btn:hover { transform: none; }    /* skip sticky hover effects */
+}
 
-    <h2>Demo: responsive grid</h2>
-    <div class="responsive-grid">
-        <div class="rg-cell">1</div>
-        <div class="rg-cell">2</div>
-        <div class="rg-cell">3</div>
-        <div class="rg-cell">4</div>
-        <div class="rg-cell">5</div>
-        <div class="rg-cell">6</div>
-    </div>
-    <p>1 column on phones, 2 on large phones, 3 on tablets, 6 on desktops.</p>
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  .btn { border: 2px solid currentColor; }
+}
+
+/* Orientation */
+@media (orientation: landscape) { … }
+@media (orientation: portrait)  { … }</code></pre>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="grid">
+        <h2>6. Demo: responsive column count</h2>
+        <div class="responsive-grid">
+            <div class="rg-cell">1</div><div class="rg-cell">2</div><div class="rg-cell">3</div>
+            <div class="rg-cell">4</div><div class="rg-cell">5</div><div class="rg-cell">6</div>
+        </div>
+        <p>1 column on phones, 2 on large phones, 3 on tablets, 6 on desktops.</p>
+<pre><code>.responsive-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.rg-cell { flex: 1 1 100%; }                       /* 1 col — phones */
+
+@media (min-width: 480px)  { .rg-cell { flex-basis: calc(50%     - 0.25rem); } }  /* 2 col */
+@media (min-width: 768px)  { .rg-cell { flex-basis: calc(33.333% - 0.34rem); } }  /* 3 col */
+@media (min-width: 1024px) { .rg-cell { flex-basis: calc(16.666% - 0.42rem); } }  /* 6 col */
+
+/* With CSS Grid this is even shorter — see the Grid page. */</code></pre>
+    </section>
+
+    <!-- 7 -->
+    <section class="example" id="container">
+        <h2>7. Container queries — style based on a parent, not the viewport</h2>
+        <p>The same card looks different in a wide slot vs a narrow one. Try
+           resizing the page — each card responds to <em>its own container</em>.</p>
+
+        <div class="cq-parent wide">
+            <div class="cq-card">
+                <h3>Wide container</h3>
+                <p>Because my container is &gt; 400px, I show the horizontal layout.</p>
+            </div>
+        </div>
+
+        <div class="cq-parent narrow">
+            <div class="cq-card">
+                <h3>Narrow container</h3>
+                <p>My container is under 400px, so I stack.</p>
+            </div>
+        </div>
+<pre><code>/* 1. Declare the parent as a query container */
+.cq-parent {
+  container-type: inline-size;    /* the card queries this element's width */
+}
+
+/* 2. Base (small) styles */
+.cq-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
+/* 3. Adjust based on the container's width */
+@container (min-width: 400px) {
+  .cq-card { flex-direction: row; align-items: center; gap: 1rem; padding: 1.25rem; }
+}</code></pre>
+    </section>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

@@ -198,10 +198,27 @@
     }
     body { background: var(--color-bg); color: var(--color-fg); }
     code { background: #1e293b; color: #f1f5f9; }
-    .card, .mini-card { background: #1e293b; color: var(--color-fg); }
-    .demo, .demo-box, .tall-box, .center-demo { background: #1e293b; border-color: #334155; }
-    .site-footer { background: #1e293b; }
-    .toc { background: #1e293b; }
-    .bs-card { background: #1e293b; }
-    .stack-demo aside, .stack-demo section { background: #1e293b; }
+
+    .card, .mini-card, .tier             { background: #1e293b; color: var(--color-fg); }
+    .demo, .demo-box, .tall-box,
+    .center-demo, .cta-demo, .bottom-nav-demo,
+    .drawer-demo, .pos-container, .pos-demo,
+    .zdemo, .place-demo, .page-grid,
+    .timing-row                          { background: #1e293b; border-color: #334155; }
+    .site-footer, .toc, .bs-card,
+    .stack-demo aside, .stack-demo section,
+    .of-box, .collapse-demo, .display-demo,
+    .stat, .cq-card, .chat, .hscroll,
+    .cta-bar, .bn, .drawer, .modal,
+    .form-grid input, .form-grid textarea,
+    .mform input, .form-row input,
+    .pseudo-input, .attr-demo input,
+    .fade-in                             { background: #1e293b; color: var(--color-fg); }
+    .badge-btn, .drawer-btn,
+    .modal-open, .modal-close,
+    .drawer a:hover, .pg-nav, .pg-ads,
+    .hg-left, .hg-right                  { background: #334155; color: var(--color-fg); }
+    .msg.them                            { background: #334155; color: var(--color-fg); }
+    .bn-item, .hcard                     { color: var(--color-fg); }
+    .flip-front                          { background: #1e293b; color: var(--color-fg); }
 }

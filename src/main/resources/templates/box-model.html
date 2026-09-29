@@ -6,45 +6,168 @@
 
 <main class="container">
     <h1>The Box Model</h1>
-    <p class="lead">Every element is a rectangle made of four layers: content, padding, border, margin.</p>
+    <p class="lead">Every element is a rectangle made of four layers: content, padding, border, margin.
+       Understanding how they combine — and how to control that combination with <code>box-sizing</code>,
+       <code>overflow</code>, and <code>display</code> — is the foundation of CSS layout.</p>
 
-    <h2>Visualized</h2>
-    <div class="boxmodel-demo">
-        <div class="margin-layer">margin
-            <div class="border-layer">border
-                <div class="padding-layer">padding
-                    <div class="content-layer">content</div>
+    <nav class="toc">
+        <strong>On this page:</strong>
+        <a href="#layers">1. Visualized</a>
+        <a href="#box-sizing">2. box-sizing</a>
+        <a href="#collapse">3. Margin collapse</a>
+        <a href="#overflow">4. Overflow</a>
+        <a href="#display">5. Display types</a>
+        <a href="#aspect">6. aspect-ratio</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="example" id="layers">
+        <h2>1. Visualized</h2>
+        <div class="boxmodel-demo">
+            <div class="margin-layer">margin
+                <div class="border-layer">border
+                    <div class="padding-layer">padding
+                        <div class="content-layer">content</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+<pre><code>.box {
+  /* content: the innermost layer, sized by width/height */
+  width: 240px;
+  height: 80px;
 
-    <h2>box-sizing: the most important rule you'll ever write</h2>
-    <p>By default <code>width</code> only counts the content. Switch to
-       <code>border-box</code> so padding and border are included.</p>
+  /* padding: transparent space INSIDE the border */
+  padding: 1rem;
 
-    <div class="bs-row">
-        <div class="bs-card bs-content">
-            <h3>content-box (default)</h3>
-            <p>200px width + 20px padding + 4px border = <strong>248px total</strong>.</p>
+  /* border: the outline of the element */
+  border: 4px solid #0ea5e9;
+
+  /* margin: transparent space OUTSIDE the border */
+  margin: 1.5rem;
+}</code></pre>
+    </section>
+
+    <!-- 2 -->
+    <section class="example" id="box-sizing">
+        <h2>2. box-sizing — the most important rule you'll ever write</h2>
+        <p>By default <code>width</code> only counts the content. Switch to
+           <code>border-box</code> so padding and border are included in the width.</p>
+        <div class="bs-row">
+            <div class="bs-card bs-content">
+                <h3>content-box (default)</h3>
+                <p>200px width + 20px padding + 4px border = <strong>248px total</strong>.</p>
+            </div>
+            <div class="bs-card bs-border">
+                <h3>border-box</h3>
+                <p>200px width includes the padding and border. <strong>200px total.</strong></p>
+            </div>
         </div>
-        <div class="bs-card bs-border">
-            <h3>border-box</h3>
-            <p>200px width includes the padding and border. <strong>200px total.</strong></p>
+<pre><code>/* Apply once at the top of your stylesheet — every modern reset does this */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Compare */
+.content-box { box-sizing: content-box; width: 200px; padding: 20px; border: 4px; }
+/* actual rendered width = 200 + 40 + 8 = 248px  */
+
+.border-box  { box-sizing: border-box;  width: 200px; padding: 20px; border: 4px; }
+/* actual rendered width = 200px, content shrinks to 152px */</code></pre>
+    </section>
+
+    <!-- 3 -->
+    <section class="example" id="collapse">
+        <h2>3. Margin collapsing</h2>
+        <p>Vertical margins between block siblings <em>collapse</em> to the larger of the two —
+           a quirk that surprises everyone the first time.</p>
+        <div class="collapse-demo">
+            <p>I have <code>margin-bottom: 40px</code></p>
+            <p>I have <code>margin-top: 30px</code></p>
+            <p>The gap is 40px, not 70px.</p>
         </div>
-    </div>
+<pre><code>.collapse-demo p:nth-child(1) { margin-bottom: 40px; }
+.collapse-demo p:nth-child(2) { margin-top: 30px; }
+/* Actual gap between them = max(40, 30) = 40px */
 
-    <pre><code>/* Apply once at the top of your stylesheet */
-*, *::before, *::after { box-sizing: border-box; }</code></pre>
+/* Common ways to defeat margin collapse: */
+.parent {
+  display: flex;         /* flex &amp; grid children don't collapse */
+  /* or */ padding: 1px; /* any padding on the parent            */
+  /* or */ overflow: auto;
+}</code></pre>
+    </section>
 
-    <h2>Margin collapsing</h2>
-    <p>Vertical margins between block siblings <em>collapse</em> to the larger of the two —
-       a quirk that surprises everyone the first time.</p>
-    <div class="collapse-demo">
-        <p>I have <code>margin-bottom: 40px</code></p>
-        <p>I have <code>margin-top: 30px</code></p>
-        <p>The gap is 40px, not 70px.</p>
-    </div>
+    <!-- 4 -->
+    <section class="example" id="overflow">
+        <h2>4. overflow — what to do with content that doesn't fit</h2>
+        <div class="overflow-row">
+            <div class="of-box of-visible"><p>overflow: visible (default). Content spills.</p></div>
+            <div class="of-box of-hidden"><p>overflow: hidden. Overflow is clipped away.</p></div>
+            <div class="of-box of-scroll"><p>overflow: scroll. Scrollbars always shown.</p></div>
+            <div class="of-box of-auto"><p>overflow: auto. Scrollbars appear only when needed. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.</p></div>
+        </div>
+<pre><code>.of-visible { overflow: visible; } /* default: content escapes the box */
+.of-hidden  { overflow: hidden;  } /* clip; no scroll                  */
+.of-scroll  { overflow: scroll;  } /* always show scrollbars           */
+.of-auto    { overflow: auto;    } /* scroll only when necessary       */
+
+/* Axis-specific */
+.hscroll { overflow-x: auto; overflow-y: hidden; }
+
+/* Nice-to-know: smooth momentum scrolling on iOS is now default */
+.scroll-y { overscroll-behavior: contain; } /* stops scroll chaining to page */</code></pre>
+    </section>
+
+    <!-- 5 -->
+    <section class="example" id="display">
+        <h2>5. display — block, inline, inline-block, none</h2>
+        <div class="display-demo">
+            <span class="d-block">display: block (fills the line)</span>
+            <span class="d-inline">inline-a</span><span class="d-inline">inline-b</span><span class="d-inline">inline-c</span>
+            <span class="d-inlineblock">inline-block A</span>
+            <span class="d-inlineblock">inline-block B</span>
+            <span class="d-none">You can't see me</span>
+        </div>
+<pre><code>.d-block {
+  display: block;        /* takes the full line, respects width/height     */
+  background: #bae6fd;
+  width: 100%;
+}
+
+.d-inline {
+  display: inline;       /* flows with text, ignores width/height          */
+  background: #fef3c7;
+  padding: 0 0.25rem;
+}
+
+.d-inlineblock {
+  display: inline-block; /* flows inline BUT respects width/height/margin  */
+  background: #bbf7d0;
+  width: 120px;
+  height: 40px;
+}
+
+.d-none {
+  display: none;         /* removed from layout entirely                   */
+}
+/* Contrast with visibility: hidden — invisible but still takes space */</code></pre>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="aspect">
+        <h2>6. aspect-ratio — lock the shape</h2>
+        <div class="aspect-row">
+            <div class="ar-box ar-16-9">16 / 9</div>
+            <div class="ar-box ar-1-1">1 / 1</div>
+            <div class="ar-box ar-3-4">3 / 4</div>
+        </div>
+<pre><code>/* Set only the width — height follows the ratio. */
+.ar-16-9 { aspect-ratio: 16 / 9; width: 100%; }
+.ar-1-1  { aspect-ratio: 1;      width: 100%; }
+.ar-3-4  { aspect-ratio: 3 / 4;  width: 100%; }
+
+/* Perfect for hero images or embeds without the old padding-bottom hack. */
+img, video { aspect-ratio: 16 / 9; object-fit: cover; }</code></pre>
+    </section>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

@@ -9,7 +9,7 @@
     <p class="lead">
         Flexbox lays items out along a single axis (a row or a column) and gives you
         powerful tools for alignment, distribution, and resizing. Every example below
-        is live — open DevTools and play with the values.
+        is live and shows the exact CSS it uses.
     </p>
 
     <nav class="toc">
@@ -25,11 +25,17 @@
         <a href="#ex9">9. flex-basis</a>
         <a href="#ex10">10. order</a>
         <a href="#ex11">11. align-self</a>
-        <a href="#ex12">12. Holy grail</a>
-        <a href="#ex13">13. Navbar</a>
-        <a href="#ex14">14. Card row</a>
-        <a href="#ex15">15. Centering</a>
-        <a href="#ex16">16. Sticky footer</a>
+        <a href="#ex12">12. align-content</a>
+        <a href="#ex13">13. Holy grail</a>
+        <a href="#ex14">14. Navbar</a>
+        <a href="#ex15">15. Card row</a>
+        <a href="#ex16">16. Centering</a>
+        <a href="#ex17">17. Sticky footer</a>
+        <a href="#ex18">18. Media object</a>
+        <a href="#ex19">19. Stat tiles</a>
+        <a href="#ex20">20. Chat bubbles</a>
+        <a href="#ex21">21. Form row</a>
+        <a href="#ex22">22. Pricing table</a>
     </nav>
 
     <!-- 1 -->
@@ -41,7 +47,15 @@
             <div class="box">2</div>
             <div class="box">3</div>
         </div>
-        <pre><code>.container { display: flex; }</code></pre>
+<pre><code>.flex-row { display: flex; }
+
+.box {
+  background: #0ea5e9;
+  color: white;
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+}</code></pre>
     </section>
 
     <!-- 2 -->
@@ -52,7 +66,12 @@
             <div class="box">2</div>
             <div class="box">3</div>
         </div>
-        <pre><code>.container { display: flex; flex-direction: column; }</code></pre>
+<pre><code>.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+/* Other values: row (default), row-reverse, column-reverse */</code></pre>
     </section>
 
     <!-- 3 -->
@@ -76,13 +95,19 @@
 
         <p><code>space-evenly</code></p>
         <div class="flex-row jc-evenly demo-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+<pre><code>.jc-start   { display: flex; justify-content: flex-start; }    /* default */
+.jc-center  { display: flex; justify-content: center; }
+.jc-end     { display: flex; justify-content: flex-end; }
+.jc-between { display: flex; justify-content: space-between; }  /* first &amp; last stick to edges */
+.jc-around  { display: flex; justify-content: space-around; }   /* equal space around each */
+.jc-evenly  { display: flex; justify-content: space-evenly; }   /* equal gaps everywhere */</code></pre>
     </section>
 
     <!-- 4 -->
     <section class="example" id="ex4">
         <h2>4. <code>align-items</code> — alignment along the cross axis</h2>
 
-        <p><code>stretch</code> (default)</p>
+        <p><code>stretch</code> (default) — items fill container height</p>
         <div class="flex-row ai-stretch tall-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
 
         <p><code>flex-start</code></p>
@@ -94,38 +119,46 @@
         <p><code>flex-end</code></p>
         <div class="flex-row ai-end tall-box"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
 
-        <p><code>baseline</code> — aligns text baselines, even with different font sizes</p>
+        <p><code>baseline</code> — aligns text baselines, even at different font sizes</p>
         <div class="flex-row ai-baseline tall-box">
             <div class="box" style="font-size: 0.75rem;">small</div>
             <div class="box" style="font-size: 1.5rem;">medium</div>
             <div class="box" style="font-size: 2.5rem;">large</div>
         </div>
+<pre><code>.tall-box   { min-height: 140px; }
+.ai-stretch  { display: flex; align-items: stretch; }   /* default */
+.ai-start    { display: flex; align-items: flex-start; }
+.ai-center   { display: flex; align-items: center; }
+.ai-end      { display: flex; align-items: flex-end; }
+.ai-baseline { display: flex; align-items: baseline; }</code></pre>
     </section>
 
     <!-- 5 -->
     <section class="example" id="ex5">
         <h2>5. <code>gap</code> — spacing between items, no margin hacks</h2>
         <div class="flex-row gap-demo demo-box">
-            <div class="box">1</div>
-            <div class="box">2</div>
-            <div class="box">3</div>
-            <div class="box">4</div>
+            <div class="box">1</div><div class="box">2</div><div class="box">3</div><div class="box">4</div>
         </div>
-        <pre><code>.container { display: flex; gap: 1rem; }</code></pre>
+<pre><code>.gap-demo {
+  display: flex;
+  gap: 1rem;              /* both row-gap and column-gap */
+  /* row-gap: 1rem; column-gap: 0.5rem; */ /* asymmetric if needed */
+}</code></pre>
     </section>
 
     <!-- 6 -->
     <section class="example" id="ex6">
         <h2>6. <code>flex-wrap</code> — let items flow onto new lines</h2>
         <div class="flex-row wrap-demo demo-box">
-            <div class="box wide">1</div>
-            <div class="box wide">2</div>
-            <div class="box wide">3</div>
-            <div class="box wide">4</div>
-            <div class="box wide">5</div>
-            <div class="box wide">6</div>
+            <div class="box wide">1</div><div class="box wide">2</div><div class="box wide">3</div>
+            <div class="box wide">4</div><div class="box wide">5</div><div class="box wide">6</div>
         </div>
-        <pre><code>.container { display: flex; flex-wrap: wrap; gap: 0.75rem; }</code></pre>
+<pre><code>.wrap-demo {
+  display: flex;
+  flex-wrap: wrap;        /* nowrap (default) | wrap | wrap-reverse */
+  gap: 0.75rem;
+}
+.box.wide { min-width: 110px; }</code></pre>
     </section>
 
     <!-- 7 -->
@@ -136,7 +169,9 @@
             <div class="box grow-2">grow:2</div>
             <div class="box grow-1">grow:1</div>
         </div>
-        <p>The middle item gets twice the leftover space.</p>
+<pre><code>.grow-1 { flex-grow: 1; }
+.grow-2 { flex-grow: 2; }
+/* Total = 4 shares. Middle item claims 2/4 of the free space, the others 1/4 each. */</code></pre>
     </section>
 
     <!-- 8 -->
@@ -147,7 +182,10 @@
             <div class="box shrink-1">shrink:1</div>
             <div class="box shrink-3">shrink:3</div>
         </div>
-        <p>The "shrink:3" box gives up space 3× faster than its neighbor.</p>
+<pre><code>.demo-box.narrow { max-width: 360px; }
+.shrink-0 { flex: 0 0 200px; }   /* shorthand: grow shrink basis */
+.shrink-1 { flex: 0 1 200px; }
+.shrink-3 { flex: 0 3 200px; }   /* shrinks 3x faster than shrink-1 */</code></pre>
     </section>
 
     <!-- 9 -->
@@ -158,34 +196,64 @@
             <div class="box basis-200">200px</div>
             <div class="box basis-300">300px</div>
         </div>
-        <p>Shorthand: <code>flex: &lt;grow&gt; &lt;shrink&gt; &lt;basis&gt;</code>. The
-           common one-liner <code>flex: 1</code> means <code>1 1 0</code>.</p>
+<pre><code>.basis-100 { flex-basis: 100px; }
+.basis-200 { flex-basis: 200px; }
+.basis-300 { flex-basis: 300px; }
+
+/* Shorthand: flex: &lt;grow&gt; &lt;shrink&gt; &lt;basis&gt;   */
+/* The famous one-liner: */
+.equal-cols &gt; * { flex: 1; }        /* = flex: 1 1 0  → equal columns */</code></pre>
     </section>
 
     <!-- 10 -->
     <section class="example" id="ex10">
         <h2>10. <code>order</code> — visually rearrange without changing the HTML</h2>
-        <div class="flex-row demo-box">
-            <div class="box" style="order: 3">A (order:3)</div>
-            <div class="box" style="order: 1">B (order:1)</div>
-            <div class="box" style="order: 2">C (order:2)</div>
+        <div class="flex-row demo-box order-demo">
+            <div class="box order-3">A (order:3)</div>
+            <div class="box order-1">B (order:1)</div>
+            <div class="box order-2">C (order:2)</div>
         </div>
+<pre><code>.order-demo { display: flex; gap: 0.5rem; }
+.order-1 { order: 1; }
+.order-2 { order: 2; }
+.order-3 { order: 3; }
+/* Lower orders render first. Default is 0. Great for reordering
+   the same HTML at different breakpoints. */</code></pre>
     </section>
 
     <!-- 11 -->
     <section class="example" id="ex11">
         <h2>11. <code>align-self</code> — one item opts out of <code>align-items</code></h2>
-        <div class="flex-row ai-center tall-box">
+        <div class="flex-row ai-center tall-box self-demo">
             <div class="box">1</div>
-            <div class="box" style="align-self: flex-start">2</div>
-            <div class="box" style="align-self: flex-end">3</div>
+            <div class="box self-start">2</div>
+            <div class="box self-end">3</div>
             <div class="box">4</div>
         </div>
+<pre><code>.self-demo   { display: flex; align-items: center; gap: 0.5rem; }
+.self-start  { align-self: flex-start; }
+.self-end    { align-self: flex-end; }
+/* Also: auto (default, inherit from align-items), stretch, baseline */</code></pre>
     </section>
 
     <!-- 12 -->
     <section class="example" id="ex12">
-        <h2>12. The "holy grail" layout</h2>
+        <h2>12. <code>align-content</code> — spacing between wrapped rows</h2>
+        <div class="flex-row wrap-demo ac-between tall-box">
+            <div class="box wide">1</div><div class="box wide">2</div><div class="box wide">3</div>
+            <div class="box wide">4</div><div class="box wide">5</div>
+        </div>
+<pre><code>.ac-between {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;  /* only visible when wrapping produces &gt;1 line */
+  /* other values: flex-start, center, flex-end, space-around, space-evenly, stretch */
+}</code></pre>
+    </section>
+
+    <!-- 13 -->
+    <section class="example" id="ex13">
+        <h2>13. The "holy grail" layout</h2>
         <div class="holy-grail">
             <header>header</header>
             <div class="hg-body">
@@ -195,11 +263,24 @@
             </div>
             <footer>footer</footer>
         </div>
+<pre><code>.holy-grail        { display: flex; flex-direction: column; min-height: 320px; }
+.holy-grail &gt; header,
+.holy-grail &gt; footer { background: #1e293b; color: white; padding: 0.75rem; }
+
+.hg-body           { display: flex; flex: 1; }             /* stretch to fill height  */
+.hg-left, .hg-right{ flex-basis: 120px; background: #e2e8f0; padding: 1rem; }
+.hg-main           { flex: 1; padding: 1rem; }             /* takes remaining width   */
+
+/* On mobile, stack: */
+@media (max-width: 767px) {
+  .hg-body { flex-direction: column; }
+  .hg-left, .hg-right { flex-basis: auto; }
+}</code></pre>
     </section>
 
-    <!-- 13 -->
-    <section class="example" id="ex13">
-        <h2>13. A real navbar</h2>
+    <!-- 14 -->
+    <section class="example" id="ex14">
+        <h2>14. A real navbar</h2>
         <nav class="demo-navbar">
             <a class="logo">Acme</a>
             <ul class="demo-nav-links">
@@ -209,42 +290,213 @@
             </ul>
             <button class="cta">Sign up</button>
         </nav>
+<pre><code>.demo-navbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #111827;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+.demo-nav-links { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+
+/* margin-left: auto pushes THIS item to the far right */
+.demo-navbar .cta { margin-left: auto; }</code></pre>
     </section>
 
-    <!-- 14 -->
-    <section class="example" id="ex14">
-        <h2>14. Responsive card row</h2>
+    <!-- 15 -->
+    <section class="example" id="ex15">
+        <h2>15. Responsive card row</h2>
         <div class="card-row">
             <div class="mini-card"><h3>Alpha</h3><p>Quick description here.</p></div>
             <div class="mini-card"><h3>Beta</h3><p>Quick description here.</p></div>
             <div class="mini-card"><h3>Gamma</h3><p>Quick description here.</p></div>
             <div class="mini-card"><h3>Delta</h3><p>Quick description here.</p></div>
         </div>
-        <p>These wrap automatically; on phones each card takes the full width.</p>
-    </section>
+<pre><code>.card-row  { display: flex; flex-wrap: wrap; gap: 1rem; }
 
-    <!-- 15 -->
-    <section class="example" id="ex15">
-        <h2>15. Centering anything — finally</h2>
-        <div class="center-demo">
-            <div class="box">I'm centered</div>
-        </div>
-        <pre><code>.parent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}</code></pre>
+.mini-card {
+  flex: 1 1 200px;   /* grow 1, shrink 1, ideal basis 200px */
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+/* Cards wrap; on phones each takes the full width. */</code></pre>
     </section>
 
     <!-- 16 -->
     <section class="example" id="ex16">
-        <h2>16. Sticky footer pattern</h2>
+        <h2>16. Centering anything — finally</h2>
+        <div class="center-demo">
+            <div class="box">I'm centered</div>
+        </div>
+<pre><code>.center-demo {
+  display: flex;
+  justify-content: center;   /* main axis */
+  align-items: center;       /* cross axis */
+  min-height: 180px;
+}
+/* Two lines. That's it. */</code></pre>
+    </section>
+
+    <!-- 17 -->
+    <section class="example" id="ex17">
+        <h2>17. Sticky footer pattern</h2>
         <p>Make the page a column-flex container, give the main area
            <code>flex: 1</code>, and the footer always sits at the bottom even when
            content is short.</p>
-        <pre><code>html, body { height: 100%; }
-body { display: flex; flex-direction: column; }
-main { flex: 1; }</code></pre>
+<pre><code>html, body { height: 100%; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main   { flex: 1; }        /* claims all leftover vertical space */
+footer { /* stays at the bottom */ }</code></pre>
+    </section>
+
+    <!-- 18 -->
+    <section class="example" id="ex18">
+        <h2>18. The media object</h2>
+        <p>Image on the left, text on the right — the most common UI pattern on the web.</p>
+        <div class="media-obj">
+            <div class="media-obj__img">JD</div>
+            <div class="media-obj__body">
+                <h3>Jane Doe</h3>
+                <p>Posted this two hours ago. Flexbox makes this pattern trivial.</p>
+            </div>
+        </div>
+<pre><code>.media-obj {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.media-obj__img {
+  flex: 0 0 48px;      /* fixed size, never grows or shrinks */
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #0ea5e9; color: white; font-weight: 700;
+}
+
+.media-obj__body { flex: 1; }  /* takes the rest of the row */</code></pre>
+    </section>
+
+    <!-- 19 -->
+    <section class="example" id="ex19">
+        <h2>19. Stat tiles that share space equally</h2>
+        <div class="stats-row">
+            <div class="stat"><span class="stat__num">42</span><span class="stat__label">Users</span></div>
+            <div class="stat"><span class="stat__num">7</span><span class="stat__label">Orders</span></div>
+            <div class="stat"><span class="stat__num">$1.2k</span><span class="stat__label">Revenue</span></div>
+            <div class="stat"><span class="stat__num">98%</span><span class="stat__label">Uptime</span></div>
+        </div>
+<pre><code>.stats-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.stat {
+  flex: 1 1 140px;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 1rem;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+.stat__num   { font-size: 2rem; font-weight: 700; color: #0369a1; }
+.stat__label { font-size: 0.85rem; color: #6b7280; }</code></pre>
+    </section>
+
+    <!-- 20 -->
+    <section class="example" id="ex20">
+        <h2>20. Chat bubbles — <code>align-self</code> in the wild</h2>
+        <div class="chat">
+            <div class="msg them">Hey! Are you free this weekend?</div>
+            <div class="msg me">Yep — Saturday works.</div>
+            <div class="msg them">Great. I'll ping you Friday night.</div>
+            <div class="msg me">👍</div>
+        </div>
+<pre><code>.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f1f5f9;
+  border-radius: 12px;
+}
+
+.msg {
+  max-width: 70%;
+  padding: 0.5rem 0.85rem;
+  border-radius: 14px;
+}
+.msg.them { align-self: flex-start; background: white; }
+.msg.me   { align-self: flex-end;   background: #0ea5e9; color: white; }</code></pre>
+    </section>
+
+    <!-- 21 -->
+    <section class="example" id="ex21">
+        <h2>21. Inline form row</h2>
+        <form class="form-row" onsubmit="event.preventDefault()">
+            <input type="email" placeholder="you@example.com"/>
+            <button type="submit">Subscribe</button>
+        </form>
+<pre><code>.form-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.form-row input  { flex: 1; padding: 0.6rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; }
+.form-row button { padding: 0.6rem 1rem; background: #0ea5e9; color: white; border: none; border-radius: 6px; }
+
+/* Wrap on very narrow screens so the button doesn't get squished */
+@media (max-width: 380px) {
+  .form-row { flex-wrap: wrap; }
+  .form-row button { flex: 1; }
+}</code></pre>
+    </section>
+
+    <!-- 22 -->
+    <section class="example" id="ex22">
+        <h2>22. Pricing table with a featured tier</h2>
+        <div class="pricing">
+            <div class="tier">
+                <h3>Starter</h3><p class="price">$0</p>
+                <ul><li>1 project</li><li>Community support</li></ul>
+            </div>
+            <div class="tier featured">
+                <h3>Pro</h3><p class="price">$12</p>
+                <ul><li>Unlimited projects</li><li>Priority support</li><li>Team sharing</li></ul>
+            </div>
+            <div class="tier">
+                <h3>Enterprise</h3><p class="price">Talk to us</p>
+                <ul><li>SSO / SAML</li><li>Dedicated CSM</li></ul>
+            </div>
+        </div>
+<pre><code>.pricing { display: flex; gap: 1rem; align-items: stretch; }
+
+.tier {
+  flex: 1;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex; flex-direction: column;   /* stacks content top-to-bottom */
+}
+.tier ul { list-style: none; padding: 0; margin-top: auto; }  /* pushes list to bottom */
+
+/* The featured tier is bigger and floats above */
+.tier.featured {
+  flex: 1.15;
+  transform: scale(1.03);
+  border: 2px solid #0ea5e9;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.25);
+}
+
+@media (max-width: 767px) {
+  .pricing { flex-direction: column; }
+  .tier.featured { transform: none; }
+}</code></pre>
     </section>
 </main>
 

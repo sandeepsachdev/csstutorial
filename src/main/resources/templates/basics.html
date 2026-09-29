@@ -6,54 +6,333 @@
 
 <main class="container">
     <h1>CSS Basics</h1>
-    <p class="lead">CSS (Cascading Style Sheets) describes how HTML elements are displayed.</p>
+    <p class="lead">CSS (Cascading Style Sheets) describes how HTML elements are displayed.
+       This page covers everything you need before diving into layout.</p>
 
-    <h2>1. Selectors</h2>
-    <p>A selector picks the elements you want to style. The three most common kinds:</p>
-    <pre><code>/* Type selector */
+    <nav class="toc">
+        <strong>On this page:</strong>
+        <a href="#selectors">1. Selectors</a>
+        <a href="#combinators">2. Combinators</a>
+        <a href="#pseudo-classes">3. Pseudo-classes</a>
+        <a href="#pseudo-elements">4. Pseudo-elements</a>
+        <a href="#attribute">5. Attribute selectors</a>
+        <a href="#cascade">6. Cascade &amp; specificity</a>
+        <a href="#colors">7. Colors</a>
+        <a href="#units">8. Units</a>
+        <a href="#typography">9. Typography</a>
+        <a href="#custom-properties">10. Custom properties</a>
+        <a href="#backgrounds">11. Backgrounds &amp; borders</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="example" id="selectors">
+        <h2>1. Selectors</h2>
+        <p>A selector picks the elements you want to style.</p>
+        <div class="demo">
+            <p class="sel-type">Type selector — styled by <code>p</code></p>
+            <p class="sel-class">Class selector — styled by <code>.sel-class</code></p>
+            <p id="sel-id">ID selector — styled by <code>#sel-id</code></p>
+        </div>
+<pre><code>/* Type — every &lt;p&gt; */
 p { color: #333; }
 
-/* Class selector */
-.callout { background: lightyellow; }
+/* Class — any element with class="sel-class" */
+.sel-class { background: #fef3c7; padding: 0.25rem 0.5rem; }
 
-/* ID selector */
-#main-title { font-size: 2rem; }</code></pre>
+/* ID — the one element with id="sel-id" */
+#sel-id { color: rebeccapurple; font-weight: 700; }
 
-    <h2>2. The cascade &amp; specificity</h2>
-    <p>When two rules target the same element, the more specific one wins.
-       Roughly: <code>inline &gt; id &gt; class &gt; type</code>.</p>
-    <div class="demo">
-        <p class="cascade-demo" id="cascade-id">I'm styled by three rules — the ID wins.</p>
-    </div>
+/* Universal, grouped, chained */
+* { box-sizing: border-box; }              /* every element */
+h1, h2, h3 { font-family: Georgia; }       /* grouped list  */
+button.primary { background: #0ea5e9; }    /* class chained to type */</code></pre>
+    </section>
 
-    <h2>3. Colors &amp; units</h2>
-    <ul>
-        <li><code>#ff6600</code>, <code>rgb(255 102 0)</code>, <code>hsl(24 100% 50%)</code> — color formats</li>
-        <li><code>px</code> — absolute pixels</li>
-        <li><code>rem</code> — relative to the root font size (best for typography)</li>
-        <li><code>em</code> — relative to the parent's font size</li>
-        <li><code>%</code>, <code>vw</code>, <code>vh</code> — relative to the container or viewport</li>
-    </ul>
+    <!-- 2 -->
+    <section class="example" id="combinators">
+        <h2>2. Combinators — relationships between elements</h2>
+        <div class="demo combo-demo">
+            <div class="parent">
+                Parent
+                <p>Direct child &lt;p&gt;</p>
+                <div><p>Descendant &lt;p&gt; (nested)</p></div>
+            </div>
+            <p>Sibling that follows the parent</p>
+            <p>Another sibling</p>
+        </div>
+<pre><code>/* Descendant — any &lt;p&gt; anywhere inside .parent */
+.parent p { color: #0369a1; }
 
-    <h2>4. Typography</h2>
-    <div class="demo">
-        <p class="type-sample" style="font-family: Georgia, serif;">Georgia, a serif</p>
-        <p class="type-sample" style="font-family: 'Helvetica Neue', Arial, sans-serif;">Helvetica, a sans-serif</p>
-        <p class="type-sample" style="font-family: 'Courier New', monospace;">Courier New, monospace</p>
-        <p class="type-sample" style="font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em;">
-            1.5rem &middot; bold &middot; tracked
-        </p>
-    </div>
+/* Child (&gt;) — only direct children */
+.parent &gt; p { font-weight: 700; }
 
-    <h2>5. Color palette demo</h2>
-    <div class="palette">
-        <span style="background:#0ea5e9">#0ea5e9</span>
-        <span style="background:#22c55e">#22c55e</span>
-        <span style="background:#f59e0b">#f59e0b</span>
-        <span style="background:#ef4444">#ef4444</span>
-        <span style="background:#a855f7">#a855f7</span>
-        <span style="background:#111827">#111827</span>
-    </div>
+/* Adjacent sibling (+) — the very next sibling */
+.parent + p { background: #fef9c3; }
+
+/* General sibling (~) — every following sibling */
+.parent ~ p { border-left: 3px solid #0ea5e9; padding-left: 0.5rem; }</code></pre>
+    </section>
+
+    <!-- 3 -->
+    <section class="example" id="pseudo-classes">
+        <h2>3. Pseudo-classes — state-based styling</h2>
+        <div class="demo pseudo-demo">
+            <button class="pseudo-btn">Hover / focus me</button>
+            <ul class="pseudo-list">
+                <li>First (:first-child)</li>
+                <li>Middle</li>
+                <li>Middle</li>
+                <li>Last (:last-child)</li>
+            </ul>
+            <input class="pseudo-input" placeholder="Type here…"/>
+        </div>
+<pre><code>/* Interactive states */
+.pseudo-btn:hover  { background: #0369a1; }
+.pseudo-btn:active { transform: translateY(1px); }
+.pseudo-btn:focus-visible { outline: 3px solid #f59e0b; }
+
+/* Structural */
+.pseudo-list li:first-child { color: #22c55e; font-weight: 700; }
+.pseudo-list li:last-child  { color: #ef4444; font-weight: 700; }
+.pseudo-list li:nth-child(odd) { background: #f1f5f9; }
+
+/* Form */
+.pseudo-input:focus   { border-color: #0ea5e9; }
+.pseudo-input:invalid { border-color: #ef4444; }
+.pseudo-input:placeholder-shown { font-style: italic; }</code></pre>
+    </section>
+
+    <!-- 4 -->
+    <section class="example" id="pseudo-elements">
+        <h2>4. Pseudo-elements — style parts that aren't real elements</h2>
+        <div class="demo pseudoel-demo">
+            <p class="quote">Simplicity is the ultimate sophistication.</p>
+            <p class="first-letter">The first letter of this paragraph is huge because of <code>::first-letter</code>.</p>
+            <p class="marker-demo">Requires a checkmark bullet</p>
+        </div>
+<pre><code>/* ::before and ::after insert generated content */
+.quote::before { content: "\201C"; font-size: 2rem; color: #0ea5e9; }
+.quote::after  { content: "\201D"; font-size: 2rem; color: #0ea5e9; }
+
+/* ::first-letter targets the initial letter */
+.first-letter::first-letter {
+  font-size: 3rem;
+  float: left;
+  padding-right: 0.25rem;
+  color: #6366f1;
+  font-weight: 700;
+}
+
+/* ::selection styles highlighted text */
+::selection { background: #fde68a; color: #78350f; }
+
+/* ::marker styles list bullets */
+.marker-demo::before {
+  content: "\2713  ";
+  color: #22c55e;
+  font-weight: 700;
+}</code></pre>
+    </section>
+
+    <!-- 5 -->
+    <section class="example" id="attribute">
+        <h2>5. Attribute selectors</h2>
+        <div class="demo attr-demo">
+            <a href="https://example.com">External link</a>
+            <a href="/basics">Internal link</a>
+            <a href="mailto:hi@example.com">Email link</a>
+            <input type="email" placeholder="email"/>
+            <input type="password" placeholder="password"/>
+        </div>
+<pre><code>/* Exact match */
+a[href="/basics"]        { font-weight: 700; }
+
+/* Starts with (^=) — great for protocol matching */
+a[href^="mailto:"]::before { content: "\2709 "; }
+a[href^="https://"]::after { content: " \2197"; color: #6b7280; }
+
+/* Ends with ($=) */
+a[href$=".pdf"]::after   { content: " (pdf)"; }
+
+/* Contains substring (*=) */
+a[href*="example.com"]   { color: #a855f7; }
+
+/* Attribute presence */
+input[required]          { border-left: 3px solid #ef4444; }
+input[type="password"]   { letter-spacing: 0.2em; }</code></pre>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="cascade">
+        <h2>6. The cascade &amp; specificity</h2>
+        <p>When two rules target the same element, the more specific one wins.
+           Rough order: <code>inline &gt; id &gt; class/attr/pseudo-class &gt; type</code>.</p>
+        <div class="demo">
+            <p class="cascade-demo" id="cascade-id">I'm targeted by three rules — the ID wins.</p>
+        </div>
+<pre><code>p              { color: red;          }  /* specificity 0,0,0,1 */
+.cascade-demo  { color: green;        }  /* specificity 0,0,1,0 */
+#cascade-id    { color: rebeccapurple;}  /* specificity 0,1,0,0 — wins */
+
+/* !important overrides normal rules (use sparingly) */
+p.cascade-demo { color: black !important; }
+
+/* Inline &gt; everything except !important */
+&lt;p style="color: orange"&gt;…&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- 7 -->
+    <section class="example" id="colors">
+        <h2>7. Color formats</h2>
+        <div class="palette">
+            <span style="background:#0ea5e9">#0ea5e9</span>
+            <span style="background:#22c55e">#22c55e</span>
+            <span style="background:#f59e0b">#f59e0b</span>
+            <span style="background:#ef4444">#ef4444</span>
+            <span style="background:#a855f7">#a855f7</span>
+            <span style="background:#111827">#111827</span>
+        </div>
+<pre><code>.demo {
+  color:            #0ea5e9;             /* hex             */
+  background:       rgb(14 165 233);     /* modern rgb      */
+  border-color:     rgba(14, 165, 233, 0.5);  /* legacy w/ alpha */
+  box-shadow-color: hsl(199 89% 48%);    /* hue/sat/light   */
+  outline-color:    hsla(199 89% 48% / 0.5);
+  accent-color:     oklch(70% 0.15 220); /* modern, perceptual */
+  caret-color:      currentColor;        /* inherit the text color */
+}
+
+/* Named colors */
+color: rebeccapurple;
+background: transparent;</code></pre>
+    </section>
+
+    <!-- 8 -->
+    <section class="example" id="units">
+        <h2>8. Units</h2>
+        <div class="demo unit-demo">
+            <div class="unit-box unit-px">120px</div>
+            <div class="unit-box unit-rem">8rem</div>
+            <div class="unit-box unit-em">6em</div>
+            <div class="unit-box unit-percent">25%</div>
+            <div class="unit-box unit-vw">15vw</div>
+        </div>
+<pre><code>/* Absolute */
+.px  { width: 120px; }
+
+/* Relative to root font size (the safest for typography) */
+.rem { width: 8rem; }   /* 8 × root font-size */
+
+/* Relative to the parent's font size */
+.em  { width: 6em; }
+
+/* Relative to the container / viewport */
+.pct { width: 25%; }
+.vw  { width: 15vw; }   /* 15% of viewport width  */
+.vh  { height: 100vh; } /* 100% of viewport height */
+.dvh { height: 100dvh; }/* dynamic — accounts for mobile URL bar */
+
+/* Newer, best of both: clamp between a min and max */
+h1 { font-size: clamp(1.5rem, 4vw + 1rem, 3rem); }</code></pre>
+    </section>
+
+    <!-- 9 -->
+    <section class="example" id="typography">
+        <h2>9. Typography</h2>
+        <div class="demo">
+            <p class="type-serif">Georgia — a serif face</p>
+            <p class="type-sans">Helvetica — a sans-serif</p>
+            <p class="type-mono">Courier — monospace</p>
+            <p class="type-big">1.5rem &middot; bold &middot; tracked</p>
+        </div>
+<pre><code>.type-serif { font-family: Georgia, "Times New Roman", serif; }
+.type-sans  { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+.type-mono  { font-family: "SF Mono", Menlo, Consolas, monospace; }
+
+.type-big {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: underline wavy #0ea5e9;
+  text-underline-offset: 0.25em;
+}
+
+/* Truncate long text with ellipsis */
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}</code></pre>
+    </section>
+
+    <!-- 10 -->
+    <section class="example" id="custom-properties">
+        <h2>10. Custom properties (CSS variables)</h2>
+        <div class="demo var-demo">
+            <button class="var-btn">Primary</button>
+            <button class="var-btn danger">Danger</button>
+            <button class="var-btn success">Success</button>
+        </div>
+<pre><code>/* Declare on :root so they cascade everywhere */
+:root {
+  --brand:   #0ea5e9;
+  --danger:  #ef4444;
+  --success: #22c55e;
+  --radius:  6px;
+  --space:   0.75rem;
+}
+
+.var-btn {
+  background: var(--brand);
+  color: white;
+  padding: var(--space) calc(var(--space) * 2);
+  border: none;
+  border-radius: var(--radius);
+}
+
+/* Override for variants — reassign the variable, not each property */
+.var-btn.danger  { background: var(--danger);  }
+.var-btn.success { background: var(--success); }
+
+/* Variables also power theming — see the dark-mode block in mobile.css */</code></pre>
+    </section>
+
+    <!-- 11 -->
+    <section class="example" id="backgrounds">
+        <h2>11. Backgrounds &amp; borders</h2>
+        <div class="demo bg-row">
+            <div class="bg-box bg-solid">solid</div>
+            <div class="bg-box bg-gradient">gradient</div>
+            <div class="bg-box bg-radial">radial</div>
+            <div class="bg-box bg-shadowed">shadow</div>
+        </div>
+<pre><code>.bg-solid {
+  background: #0ea5e9;
+  border: 2px solid #0369a1;
+  border-radius: 8px;
+}
+
+.bg-gradient {
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+}
+
+.bg-radial {
+  background: radial-gradient(circle at top left, #f59e0b, #ef4444 80%);
+}
+
+.bg-shadowed {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+              0 2px 4px rgba(0, 0, 0, 0.10);
+  border-radius: 8px;
+}
+
+/* Rounded shapes and pills */
+.pill   { border-radius: 999px; }
+.circle { border-radius: 50%; aspect-ratio: 1; }</code></pre>
+    </section>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

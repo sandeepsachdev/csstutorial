@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('CSS Grid')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main class="container">
+    <h1>CSS Grid</h1>
+    <p class="lead">
+        Grid is the two-dimensional layout system — columns <em>and</em> rows at the same time.
+        Where flexbox is best for one-directional content, grid shines for page layouts,
+        galleries, dashboards, and forms.
+    </p>
+
+    <nav class="toc">
+        <strong>Examples:</strong>
+        <a href="#g1">1. Basic grid</a>
+        <a href="#g2">2. fr units</a>
+        <a href="#g3">3. Fixed + fluid</a>
+        <a href="#g4">4. Rows</a>
+        <a href="#g5">5. gap</a>
+        <a href="#g6">6. Spanning</a>
+        <a href="#g7">7. Explicit lines</a>
+        <a href="#g8">8. minmax</a>
+        <a href="#g9">9. auto-fit</a>
+        <a href="#g10">10. Template areas</a>
+        <a href="#g11">11. place-items</a>
+        <a href="#g12">12. Dashboard</a>
+        <a href="#g13">13. Photo gallery</a>
+        <a href="#g14">14. Form grid</a>
+    </nav>
+
+    <!-- 1 -->
+    <section class="example" id="g1">
+        <h2>1. Basic grid — <code>grid-template-columns</code></h2>
+        <div class="grid-3col demo-box">
+            <div class="gbox">1</div><div class="gbox">2</div><div class="gbox">3</div>
+            <div class="gbox">4</div><div class="gbox">5</div><div class="gbox">6</div>
+        </div>
+<pre><code>.grid-3col {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;   /* three fixed columns */
+  gap: 0.5rem;
+}
+.gbox { background: #6366f1; color: white; padding: 1rem; text-align: center; }</code></pre>
+    </section>
+
+    <!-- 2 -->
+    <section class="example" id="g2">
+        <h2>2. Fractional units — <code>fr</code></h2>
+        <div class="grid-fr demo-box">
+            <div class="gbox">1fr</div><div class="gbox">2fr</div><div class="gbox">1fr</div>
+        </div>
+<pre><code>.grid-fr {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;    /* middle column is 2× the others */
+  gap: 0.5rem;
+}
+/* fr divides the LEFTOVER space after fixed sizes and gaps. */</code></pre>
+    </section>
+
+    <!-- 3 -->
+    <section class="example" id="g3">
+        <h2>3. Mixing fixed and fluid</h2>
+        <div class="grid-mix demo-box">
+            <aside class="gbox">200px</aside>
+            <main class="gbox">1fr (fills)</main>
+            <div class="gbox">120px</div>
+        </div>
+<pre><code>.grid-mix {
+  display: grid;
+  grid-template-columns: 200px 1fr 120px;   /* sidebar, main, ad slot */
+  gap: 1rem;
+}</code></pre>
+    </section>
+
+    <!-- 4 -->
+    <section class="example" id="g4">
+        <h2>4. Rows too — <code>grid-template-rows</code></h2>
+        <div class="grid-rows demo-box">
+            <div class="gbox">A</div><div class="gbox">B</div>
+            <div class="gbox">C</div><div class="gbox">D</div>
+        </div>
+<pre><code>.grid-rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 80px 40px;    /* first row twice as tall */
+  gap: 0.5rem;
+}</code></pre>
+    </section>
+
+    <!-- 5 -->
+    <section class="example" id="g5">
+        <h2>5. <code>gap</code> — the killer feature</h2>
+        <div class="grid-gap demo-box">
+            <div class="gbox">1</div><div class="gbox">2</div><div class="gbox">3</div>
+            <div class="gbox">4</div><div class="gbox">5</div><div class="gbox">6</div>
+        </div>
+<pre><code>.grid-gap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;                    /* row-gap and column-gap in one shot */
+  /* row-gap: 1rem; column-gap: 0.5rem;   asymmetric if needed */
+}
+/* repeat(3, 1fr) = "1fr 1fr 1fr" — much cleaner. */</code></pre>
+    </section>
+
+    <!-- 6 -->
+    <section class="example" id="g6">
+        <h2>6. Spanning multiple cells</h2>
+        <div class="grid-span demo-box">
+            <div class="gbox span2">span 2 columns</div>
+            <div class="gbox">2</div>
+            <div class="gbox">3</div>
+            <div class="gbox span-full">span all columns</div>
+        </div>
+<pre><code>.grid-span         { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.span2             { grid-column: span 2; }         /* takes 2 tracks */
+.span-full         { grid-column: 1 / -1; }         /* from first to last line */
+/* You can also span rows: grid-row: span 2; */</code></pre>
+    </section>
+
+    <!-- 7 -->
+    <section class="example" id="g7">
+        <h2>7. Placing items by line numbers</h2>
+        <div class="grid-lines demo-box">
+            <div class="gbox place-a">a → 1 / 3</div>
+            <div class="gbox place-b">b → 3 / 5</div>
+            <div class="gbox place-c">c → 1 / -1</div>
+        </div>
+<pre><code>.grid-lines { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+
+/* grid-column: &lt;start-line&gt; / &lt;end-line&gt; */
+.place-a { grid-column: 1 / 3; }   /* covers tracks 1-2 */
+.place-b { grid-column: 3 / 5; }   /* covers tracks 3-4 */
+.place-c { grid-column: 1 / -1; }  /* full width — -1 means "last line" */</code></pre>
+    </section>
+
+    <!-- 8 -->
+    <section class="example" id="g8">
+        <h2>8. <code>minmax()</code> — a floor and a ceiling</h2>
+        <div class="grid-minmax demo-box">
+            <div class="gbox">1</div><div class="gbox">2</div><div class="gbox">3</div>
+        </div>
+<pre><code>.grid-minmax {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 2fr minmax(80px, 1fr);
+  gap: 0.5rem;
+}
+/* The first column is never smaller than 120px, never bigger than 1fr's share. */</code></pre>
+    </section>
+
+    <!-- 9 -->
+    <section class="example" id="g9">
+        <h2>9. Auto-responsive grids — <code>auto-fit + minmax</code></h2>
+        <div class="grid-autofit">
+            <div class="gbox">1</div><div class="gbox">2</div><div class="gbox">3</div>
+            <div class="gbox">4</div><div class="gbox">5</div><div class="gbox">6</div>
+        </div>
+        <p>Resize the window. The grid rewraps itself without a single media query.</p>
+<pre><code>.grid-autofit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+/* auto-fit: fit as many 160px+ columns as will fit, then stretch to 1fr each */
+/* auto-fill: same, but keep empty tracks instead of stretching */</code></pre>
+    </section>
+
+    <!-- 10 -->
+    <section class="example" id="g10">
+        <h2>10. Named regions — <code>grid-template-areas</code></h2>
+        <div class="page-grid">
+            <header class="pg-head">header</header>
+            <aside class="pg-nav">nav</aside>
+            <main  class="pg-main">main</main>
+            <aside class="pg-ads">ads</aside>
+            <footer class="pg-foot">footer</footer>
+        </div>
+<pre><code>.page-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 140px 1fr 140px;
+  grid-template-areas:
+    "head head head"
+    "nav  main ads"
+    "foot foot foot";
+}
+.pg-head { grid-area: head; }
+.pg-nav  { grid-area: nav;  }
+.pg-main { grid-area: main; }
+.pg-ads  { grid-area: ads;  }
+.pg-foot { grid-area: foot; }
+
+/* On phones, redefine the ASCII layout — items follow automatically */
+@media (max-width: 640px) {
+  .page-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "nav" "main" "ads" "foot";
+  }
+}</code></pre>
+    </section>
+
+    <!-- 11 -->
+    <section class="example" id="g11">
+        <h2>11. Centering with one line — <code>place-items</code></h2>
+        <div class="place-demo">
+            <div class="gbox" style="width: auto; padding: 0.5rem 1rem;">centered</div>
+        </div>
+<pre><code>.place-demo {
+  display: grid;
+  place-items: center;     /* shorthand for justify-items + align-items */
+  min-height: 160px;
+}
+/* Two words. Beats flexbox for this one case. */</code></pre>
+    </section>
+
+    <!-- 12 -->
+    <section class="example" id="g12">
+        <h2>12. A tiny dashboard</h2>
+        <div class="dash">
+            <div class="tile tile-big">Revenue</div>
+            <div class="tile">Users</div>
+            <div class="tile">Orders</div>
+            <div class="tile">Uptime</div>
+            <div class="tile tile-wide">Chart</div>
+        </div>
+<pre><code>.dash {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 100px;
+  gap: 0.75rem;
+}
+.tile-big  { grid-column: span 2; grid-row: span 2; }  /* big feature tile */
+.tile-wide { grid-column: span 4; }                    /* full-width chart */</code></pre>
+    </section>
+
+    <!-- 13 -->
+    <section class="example" id="g13">
+        <h2>13. Photo gallery with variable-size tiles</h2>
+        <div class="gallery">
+            <div class="tile-a">A</div>
+            <div class="tile-b">B</div>
+            <div class="tile-c">C</div>
+            <div class="tile-d">D</div>
+            <div class="tile-e">E</div>
+        </div>
+<pre><code>.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 90px;
+  gap: 0.5rem;
+}
+.tile-a { grid-column: span 2; grid-row: span 2; background: #0ea5e9; }
+.tile-b {                                           background: #22c55e; }
+.tile-c {                       grid-row: span 2; background: #a855f7; }
+.tile-d {                                           background: #f59e0b; }
+.tile-e { grid-column: span 2;                     background: #ef4444; }</code></pre>
+    </section>
+
+    <!-- 14 -->
+    <section class="example" id="g14">
+        <h2>14. A form as a grid</h2>
+        <form class="form-grid" onsubmit="event.preventDefault()">
+            <label>First name<input type="text"/></label>
+            <label>Last name<input type="text"/></label>
+            <label class="full">Email<input type="email"/></label>
+            <label class="full">Message<textarea rows="3"></textarea></label>
+            <button type="submit" class="full">Send</button>
+        </form>
+<pre><code>.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.form-grid label { display: flex; flex-direction: column; gap: 0.25rem; }
+.form-grid input, .form-grid textarea {
+  font-size: 16px; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 6px;
+}
+.form-grid .full { grid-column: 1 / -1; }   /* span both columns */
+
+@media (max-width: 480px) {
+  .form-grid { grid-template-columns: 1fr; }
+}</code></pre>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

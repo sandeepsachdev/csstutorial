@@ -21,9 +21,24 @@ public class TutorialController {
         return "box-model";
     }
 
+    @GetMapping("/positioning")
+    public String positioning() {
+        return "positioning";
+    }
+
     @GetMapping("/flexbox")
     public String flexbox() {
         return "flexbox";
+    }
+
+    @GetMapping("/grid")
+    public String grid() {
+        return "grid";
+    }
+
+    @GetMapping("/media-queries")
+    public String mediaQueries() {
+        return "media-queries";
     }
 
     @GetMapping("/mobile")
@@ -31,8 +46,8 @@ public class TutorialController {
         return "mobile";
     }
 
-    @GetMapping("/media-queries")
-    public String mediaQueries() {
-        return "media-queries";
+    @GetMapping("/animations")
+    public String animations() {
+        return "animations";
     }
 }
